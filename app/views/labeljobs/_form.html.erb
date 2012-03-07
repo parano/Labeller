@@ -1,33 +1,38 @@
-<%= form_for(@labeljob) do |f| %>
-  <% if @labeljob.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@labeljob.errors.count, "error") %> prohibited this labeljob from being saved:</h2>
+<%= form_for @labeljob, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <legend><%= controller.action_name.capitalize %> Labeljob</legend>
 
-      <ul>
-      <% @labeljob.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+    <div class="control-group">
+      <%= f.label :name, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :name, :class => 'text_field' %>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name %>
-  </div>
-  <div class="field">
-    <%= f.label :desc %><br />
-    <%= f.text_area :desc %>
-  </div>
-  <div class="field">
-    <%= f.label :deadline %><br />
-    <%= f.date_select :deadline %>
-  </div>
-  <div class="field">
-    <%= f.label :labels %><br />
-    <%= f.text_field :labels %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+    <div class="control-group">
+      <%= f.label :desc, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_area :desc, :class => 'text_area' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :deadline, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.date_select :deadline, :class => 'date_select' %>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <%= f.label :labels, :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field :labels, :class => 'text_field' %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit nil, :class => 'btn btn-primary' %>
+      <%= link_to 'Cancel', labeljobs_path, :class => 'btn' %>
+    </div>
+  </fieldset>
 <% end %>

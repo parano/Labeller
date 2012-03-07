@@ -1,25 +1,29 @@
-<p id="notice"><%= notice %></p>
+<h1>Labeljob</h1>
 
 <p>
-  <b>Name:</b>
+  <b>Name</b><br>
   <%= @labeljob.name %>
 </p>
 
 <p>
-  <b>Desc:</b>
+  <b>Desc</b><br>
   <%= @labeljob.desc %>
 </p>
 
 <p>
-  <b>Deadline:</b>
+  <b>Deadline</b><br>
   <%= @labeljob.deadline %>
 </p>
 
 <p>
-  <b>Labels:</b>
-  <%= @labeljob.labels %>
+  <b>Labels</b><br>
+  <% @labeljob.labels.split('|').each do |label| %>
+    <%= label  %>
+  <% end %>
 </p>
 
-
-<%= link_to 'Edit', edit_labeljob_path(@labeljob) %> |
-<%= link_to 'Back', labeljobs_path %>
+<div class="form-actions">
+  <%= link_to 'Back', labeljobs_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn' %>
+  <%= link_to 'Delete', labeljob_path(@labeljob), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

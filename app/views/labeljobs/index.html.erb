@@ -1,29 +1,26 @@
-<h1>Listing labeljobs</h1>
-
-<table>
-  <tr>
-    <th>Name</th>
-    <th>Desc</th>
-    <th>Deadline</th>
-    <th>Labels</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
-
-<% @labeljobs.each do |labeljob| %>
-  <tr>
-    <td><%= labeljob.name %></td>
-    <td><%= labeljob.desc %></td>
-    <td><%= labeljob.deadline %></td>
-    <td><%= labeljob.labels %></td>
-    <td><%= link_to 'Show', labeljob %></td>
-    <td><%= link_to 'Edit', edit_labeljob_path(labeljob) %></td>
-    <td><%= link_to 'Destroy', labeljob, confirm: 'Are you sure?', method: :delete %></td>
-  </tr>
-<% end %>
+<h1>Labeljobs</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @labeljobs.each do |labeljob| %>
+      <tr>
+        <td><%= labeljob.id %></td>
+        <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
+        <td><%= labeljob.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
 
-<br />
-
-<%= link_to 'New Labeljob', new_labeljob_path %>
+<%= link_to 'New', new_labeljob_path, :class => 'btn btn-primary' %>
