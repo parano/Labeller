@@ -1,0 +1,2 @@
+module LabeljobsHelper
+end

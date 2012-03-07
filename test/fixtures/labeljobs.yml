@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  desc: MyText
+  deadline: 2012-03-07
+  labels: MyString
+
+two:
+  name: MyString
+  desc: MyText
+  deadline: 2012-03-07
+  labels: MyString

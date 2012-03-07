@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Name:</b>
+  <%= @labeljob.name %>
+</p>
+
+<p>
+  <b>Desc:</b>
+  <%= @labeljob.desc %>
+</p>
+
+<p>
+  <b>Deadline:</b>
+  <%= @labeljob.deadline %>
+</p>
+
+<p>
+  <b>Labels:</b>
+  <%= @labeljob.labels %>
+</p>
+
+
+<%= link_to 'Edit', edit_labeljob_path(@labeljob) %> |
+<%= link_to 'Back', labeljobs_path %>
