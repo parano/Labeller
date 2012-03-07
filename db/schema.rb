@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307062702) do
+ActiveRecord::Schema.define(:version => 20120307073406) do
 
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
@@ -20,6 +20,17 @@ ActiveRecord::Schema.define(:version => 20120307062702) do
     t.string   "labels"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "rawdata"
   end
+
+  create_table "labeltasks", :force => true do |t|
+    t.integer  "status"
+    t.integer  "labeljob_id"
+    t.text     "rawdata"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  add_index "labeltasks", ["labeljob_id"], :name => "index_labeltasks_on_labeljob_id"
 
 end

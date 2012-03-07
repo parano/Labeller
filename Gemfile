@@ -1,4 +1,4 @@
-source 'https://ruby.taobao.org'
+source 'https://rubygems.org'
 
 gem 'rails', '3.2.2'
 
@@ -23,6 +23,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
+
+gem "carrierwave"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

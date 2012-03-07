@@ -1,9 +1,8 @@
-<h1>Labeljob</h1>
+<h1>Labeljob Name:
+  
+    <%= @labeljob.name %>
 
-<p>
-  <b>Name</b><br>
-  <%= @labeljob.name %>
-</p>
+</h1>
 
 <p>
   <b>Desc</b><br>
@@ -20,6 +19,11 @@
   <% @labeljob.labels.split('|').each do |label| %>
     <%= label  %>
   <% end %>
+</p>
+
+<p>
+  <b><%= link_to "Downloads the raw data", @labeljob.rawdata.url %>
+  </b><br>
 </p>
 
 <div class="form-actions">
