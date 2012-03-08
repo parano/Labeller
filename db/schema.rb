@@ -11,27 +11,32 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120307132444) do
+ActiveRecord::Schema.define(:version => 20120308043218) do
 
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
     t.text     "desc"
     t.date     "deadline"
     t.string   "labels"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+    t.boolean  "approved",   :default => false
+    t.datetime "created_at",                    :null => false
+    t.datetime "updated_at",                    :null => false
     t.string   "rawdata"
   end
+
+  add_index "labeljobs", ["user_id", "created_at"], :name => "index_labeljobs_on_user_id_and_created_at"
 
   create_table "labeltasks", :force => true do |t|
     t.integer  "status"
     t.integer  "labeljob_id"
     t.text     "rawdata"
+    t.integer  "user_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
 
-  add_index "labeltasks", ["labeljob_id"], :name => "index_labeltasks_on_labeljob_id"
+  add_index "labeltasks", ["labeljob_id", "user_id"], :name => "index_labeltasks_on_labeljob_id_and_user_id"
 
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
@@ -46,6 +51,8 @@ ActiveRecord::Schema.define(:version => 20120307132444) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "role"
+    t.integer  "role_mask"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

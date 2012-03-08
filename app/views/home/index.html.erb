@@ -1,0 +1,23 @@
+<h2>Tasks</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Status</th>
+      <th>User id</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @labeltasks.each do |task| %>
+      <tr>
+        <td><%= link_to task.id, labeltask_path(task) %></td>
+        <td><%= task.status %></td>
+        <td><%= user_email(task.user_id) %></td>
+        <td>
+          <%= link_to 'Edit', edit_labeltask_path(task), :class => 'btn btn-mini' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

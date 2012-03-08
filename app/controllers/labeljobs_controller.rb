@@ -1,8 +1,15 @@
 class LabeljobsController < ApplicationController
+  before_filter :authenticate_user!
+
   # GET /labeljobs
   # GET /labeljobs.json
   def index
-    @labeljobs = Labeljob.all
+    if current_user.nil?
+      @labeljobs = Labeljob.all
+    else
+      @labeljobs = Labeljob.where(:user_id => current_user.id, :approved => false)
+      @approvedjobs = Labeljob.where(:user_id => current_user.id, :approved => true)
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -14,6 +21,8 @@ class LabeljobsController < ApplicationController
   # GET /labeljobs/1.json
   def show
     @labeljob = Labeljob.find(params[:id])
+    @author = User.find(current_user.id)
+    @labeltasks = @labeljob.labeltasks
 
     respond_to do |format|
       format.html # show.html.erb
@@ -41,6 +50,7 @@ class LabeljobsController < ApplicationController
   # POST /labeljobs.json
   def create
     @labeljob = Labeljob.new(params[:labeljob])
+    @labeljob.user_id = current_user.id if current_user != nil
 
     respond_to do |format|
       if @labeljob.save
@@ -80,4 +90,17 @@ class LabeljobsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+
+  def approve
+    @labeljob = Labeljob.find(params[:id])
+    @labeljob.update_attributes(:approved => true)
+
+    if @labeljob.save
+      redirect_to labeljobs_url, notice: 'Label job was successfully approved'
+    else
+      render action: "show", notice: 'Approve Denied'
+    end
+  end
+
 end

@@ -2,6 +2,12 @@
     <%= @labeljob.name %>
 </h1>
 
+
+<p>
+  <b>Created by</b><br>
+  <%= @author.email %>
+</p>
+
 <p>
   <b>Desc</b><br>
   <%= @labeljob.desc %>
@@ -24,8 +30,39 @@
   </b><br>
 </p>
 
+
 <div class="form-actions">
-  <%= link_to 'Back', labeljobs_path, :class => 'btn'  %>
-  <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn' %>
+  <% if @labeljob.approved? ==false %>
+    <% if current_user.id == @author.id  %>
+      <%= link_to 'Approve', approve_labeljob_path(@labeljob), :class => 'btn btn-success' %>
+    <% end %>
+    <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
+  <% end %>
   <%= link_to 'Delete', labeljob_path(@labeljob), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+   <%= link_to 'Back', labeljobs_path, :class => 'btn'  %>
 </div>
+
+
+<h2>Tasks</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Status</th>
+      <th>User id</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @labeltasks.each do |task| %>
+      <tr>
+        <td><%= link_to task.id, labeljob_labeltask_path(@labeljob, task) %></td>
+        <td><%= task.status %></td>
+        <td><%= user_email(task.user_id) %></td>
+        <td>
+          <%= link_to 'Edit', edit_labeljob_labeltask_path(@labeljob, task), :class => 'btn btn-mini' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

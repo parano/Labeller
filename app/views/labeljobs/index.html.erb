@@ -1,3 +1,6 @@
+<%= link_to 'New Label Job', new_labeljob_path, :class => 'btn btn-primary pull-right' %>
+
+
 <h1>Labeljobs</h1>
 <table class="table table-striped">
   <thead>
@@ -15,6 +18,7 @@
         <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
         <td><%= labeljob.created_at %></td>
         <td>
+          <%= link_to 'Approve', approve_labeljob_path(labeljob), :class => 'btn btn-mini btn-success' %>
           <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>
           <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
         </td>
@@ -22,5 +26,29 @@
     <% end %>
   </tbody>
 </table>
-
-<%= link_to 'New', new_labeljob_path, :class => 'btn btn-primary' %>
+<% if @approvedjobs.nil? == false %>
+  <h2 style='margin-top:40px'>Approved jobs</h2>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Created at</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @approvedjobs.each do |labeljob| %>
+        <tr>
+          <td><%= labeljob.id %></td>
+          <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
+          <td><%= labeljob.created_at %></td>
+          <td>
+            <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>
+            <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

@@ -1,9 +1,17 @@
 Labeller::Application.routes.draw do
+
+
   devise_for :users
+  resources :labeltasks
+  root :to => "home#index"
 
-  resources :labeljobs
+  resources :labeljobs do
+    resources :labeltasks
+    member do
+      get :approve
+    end
+  end
 
-  root :to => "labeljobs#index"
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

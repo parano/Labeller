@@ -4,12 +4,50 @@ class Labeljob < ActiveRecord::Base
 	validates :desc, :presence => true
 	label_regex = /([^\|]*\|)+/
 	validates :labels,  :format => { :with => label_regex }
-	has_many :labeltasks
 
+	has_many :labeltasks, :dependent => :destroy
+	belongs_to :user
+
+
+    after_save :generate_tasks
     mount_uploader :rawdata, RawdataUploader
 
-    def generate_tasks
-    	
+    def approved?
+        approved
     end
 
+    def label_numbers
+    	self.labels.split('|').length
+    end
+
+    def generate_tasks
+        # first , delete all the old tasks
+    	self.labeltasks.each { |task| task.destroy } if self.labeltasks !=nil
+
+        data             = self.rawdata.read.split(/\n/).delete_if { |i| i=="" }
+        length           = data.length
+        labellers        = User.labellers
+        labeller_numbers = labellers.length 
+        tasksize         = length / labeller_numbers
+        remainder        = length % labeller_numbers
+
+        i       = 0
+        start   = 0
+
+        while i < remainder
+            self.labeltasks.create!(:status => 1,
+                                    :rawdata => data[start..(start + tasksize)].join("\n"),
+                                    :user_id => User.labellers[i].id)
+            start = start + tasksize + 1
+            i += 1
+        end
+
+        while i < labeller_numbers and i < length
+            self.labeltasks.create!(:status => 1,
+                                    :rawdata => data[start..(start + tasksize - 1)].join("\n"),
+                                    :user_id => User.labellers[i].id)
+            start = start + tasksize
+            i += 1
+        end
+    end
 end

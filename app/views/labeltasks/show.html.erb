@@ -1,0 +1,33 @@
+<h1>Labeljob Id:
+    <%= @labeltask.labeljob_id %>
+</h1>
+
+<p>
+  <b>Status</b><br />
+  <%= @labeltask.status %>
+</p>
+
+<p>
+  <b>Owned by</b><br>
+  <%= @owner.email %>
+</p>
+
+<p>
+  <b>Raw Data</b><br>
+  <% @labeltask.rawdata.split(/\n/).each do |line| %>
+    <%= line %> <br />
+  <% end %>
+</p>
+
+
+
+<div class="form-actions">
+  <% if @labeljob and @labeljob.approved? ==false %>
+    <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
+    <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
+  <% elsif @labeltask.user_id == current_user.id %>
+
+  <% else %>
+    <%= link_to 'Back', root_url, :class => 'btn'  %>
+  <% end %>
+</div>

@@ -1,0 +1,10 @@
+As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+
+
