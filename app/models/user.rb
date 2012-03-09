@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   has_many :labeljobs
   has_many :labeltasks
 
-  ROLES = %w[admin initator labeller]
+  ROLES = %w[admin initiator labeller]
 
   def role_symbols
   	[role.to_sym]
@@ -20,8 +20,8 @@ class User < ActiveRecord::Base
     self.role == "admin"
   end
 
-  def initator?
-    self.role == "initator"
+  def initiator?
+    self.role == "initiator"
   end
 
   def labeller?
