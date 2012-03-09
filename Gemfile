@@ -25,7 +25,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
+gem 'simple_form'
 gem "carrierwave"
 
 # To use ActiveModel has_secure_password

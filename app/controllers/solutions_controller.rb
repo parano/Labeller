@@ -1,7 +1,7 @@
 class SolutionsController < ApplicationController
   def create
   	@labeltask = Labeltask.find(params[:labeltask_id])
-  	@labeltask.label(params[:solution][:line_number],
+  	@solution = @labeltask.label(params[:solution][:line_number],
   					params[:solution][:label],
   					params[:solution][:rawdata])
 

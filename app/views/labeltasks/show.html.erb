@@ -2,40 +2,59 @@
     <%= @labeltask.labeljob_id %>
 </h1>
 
-<p>
-  <b>Status</b><br />
+<p style="margin-top:20px">
+  <b>Status : </b>
   <%= "unfinished" if @labeltask.status == 1  %>
 </p>
 
 <p>
-  <b>Owned by</b><br>
+  <b>Owned by : </b>
   <%= @owner.email %>
 </p>
 
 <p>
-  <b>Raw Data</b><br>
+  <b>Description : </b>
+  <%= @labeljob.desc %>
+</p>
+
+<p>
   <% line_number = 0 %>
-  <% @labeltask.rawdata.split(/\n/).each do |line| %>
-    <br /><%= line %> <br />
-    <% if @labeltask.user_id == current_user.id %>
-        <% if @labeltask.have_solution?(line_number) %>
-          <%= form_for [@labeltask,@labeltask.solutions.find_by_line_number(line_number)],
-            :html => {:method => :delete }, :remote => true do |f| %> 
-            <%= f.submit "Unlabel", :class => "btn" %>
-            <%= @labeltask.solution_label(line_number) %>
-          <% end %>
-        <% else %>
-          <% @labeljob.labels.split('|').each do |w| %>
-            <%= form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w)], :remote => true do |f| %>
-              <%= f.hidden_field :line_number %>
-              <%= f.hidden_field :label %>
-              <%= f.submit w, :class => "btn" %>
-            <% end %>
-          <% end %>
-        <% end %>
-    <% end %>
-    <% line_number += 1 %>
-  <% end %>
+  <table class="table table-bordered table-striped">
+    <thead>
+      <tr>
+        <th>Content</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @labeltask.rawdata.split(/\n/).each do |line| %>
+        <tr>
+          <td class="span7"><%= line %></td>
+          <td id="<%= line_number %>" class="span5" >
+            <% if (@labeltask.user_id == current_user.id and @labeltask.status == 1 ) or @labeljob.user_id == current_user.id %>
+                <% if @labeltask.have_solution?(line_number) %>
+                  <%= simple_form_for [@labeltask,@labeltask.solutions.find_by_line_number(line_number)],
+                    :html => {:method => :delete }, :remote => true do |f| %> 
+                    <%= f.submit "Unlabel: #{@labeltask.solution_label(line_number)}", :class => "btn", :disable_with => "Unlabeling" %>
+                  <% end %>
+                <% else %>
+                  <div class="label" >
+                  <% @labeljob.labels.split('|').each do |w| %>
+                      <%= simple_form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w)], :remote => true do |f| %>
+                        <%= f.hidden_field :line_number %>
+                        <%= f.hidden_field :label %>
+                        <%= f.submit w, :class => "btn btn-large", :disable_with => "choosing #{w}" %>
+                      <% end %>
+                  <% end %>
+                  </div>
+                <% end %>
+              <% end %>
+            <% line_number += 1 %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </p>
 
 
@@ -49,7 +68,6 @@
     <% end %>
   <% end %>
   <% if @labeljob and @labeljob.approved? ==false %>
-    <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
     <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
   <% else %>
     <%= link_to 'Back', root_url, :class => 'btn'  %>

@@ -18,8 +18,9 @@ class LabeltasksController < ApplicationController
     @labeltask = Labeltask.find(params[:id])
     @labeltask.update_attributes(:status => 2)
 
+
     if @labeltask.save
-      redirect_to root_url, notice: 'Label task finished'
+      redirect_to @labeltask, notice: 'Label task finished'
     else
       render action: "show", notice: 'fininshed Denied'
     end

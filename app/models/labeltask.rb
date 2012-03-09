@@ -20,4 +20,9 @@ class Labeltask < ActiveRecord::Base
   def solution_label(line_number)
     solutions.where(:line_number => line_number).first.label
   end
+
+  def finish
+    self.update_attributes(:status => 2)
+    self.save
+  end
 end

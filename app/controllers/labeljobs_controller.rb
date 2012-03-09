@@ -95,6 +95,11 @@ class LabeljobsController < ApplicationController
   def approve
     @labeljob = Labeljob.find(params[:id])
     @labeljob.update_attributes(:approved => true)
+    # @labeljob.labeltasks.each do |t|
+    #   t.update_attributes(:status => 2)
+    #   t.save
+    # end
+
 
     if @labeljob.save
       redirect_to labeljobs_url, notice: 'Label job was successfully approved'
@@ -102,5 +107,7 @@ class LabeljobsController < ApplicationController
       render action: "show", notice: 'Approve Denied'
     end
   end
+
+  
 
 end
