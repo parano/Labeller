@@ -1,9 +1,22 @@
 Labeller::Application.routes.draw do
 
 
+  
+
   devise_for :users
-  resources :labeltasks
   root :to => "home#index"
+
+  resources :labeltasks do
+    resources :solutions
+    member do
+      get :finish
+      get :unfinish
+      get :label
+      get :unlabel
+    end
+  end
+
+  
 
   resources :labeljobs do
     resources :labeltasks

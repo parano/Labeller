@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120308043218) do
+ActiveRecord::Schema.define(:version => 20120308172732) do
 
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,19 @@ ActiveRecord::Schema.define(:version => 20120308043218) do
 
   add_index "labeltasks", ["labeljob_id", "user_id"], :name => "index_labeltasks_on_labeljob_id_and_user_id"
 
+  create_table "solutions", :force => true do |t|
+    t.integer  "labeltask_id"
+    t.integer  "line_number"
+    t.string   "label"
+    t.text     "rawdata"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
+
+  add_index "solutions", ["labeltask_id", "line_number"], :name => "index_solutions_on_labeltask_id_and_line_number", :unique => true
+  add_index "solutions", ["labeltask_id"], :name => "index_solutions_on_labeltask_id"
+  add_index "solutions", ["line_number"], :name => "index_solutions_on_line_number"
+
   create_table "users", :force => true do |t|
     t.string   "email",                  :default => "", :null => false
     t.string   "encrypted_password",     :default => "", :null => false
@@ -52,7 +65,6 @@ ActiveRecord::Schema.define(:version => 20120308043218) do
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
     t.string   "role"
-    t.integer  "role_mask"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true

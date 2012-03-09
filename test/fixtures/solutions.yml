@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  task_id: 1
+  line_number: 1
+  label: MyString
+  rawdata: MyText
+
+two:
+  task_id: 1
+  line_number: 1
+  label: MyString
+  rawdata: MyText

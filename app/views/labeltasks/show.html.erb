@@ -4,7 +4,7 @@
 
 <p>
   <b>Status</b><br />
-  <%= @labeltask.status %>
+  <%= "unfinished" if @labeltask.status == 1  %>
 </p>
 
 <p>
@@ -14,19 +14,43 @@
 
 <p>
   <b>Raw Data</b><br>
+  <% line_number = 0 %>
   <% @labeltask.rawdata.split(/\n/).each do |line| %>
-    <%= line %> <br />
+    <br /><%= line %> <br />
+    <% if @labeltask.user_id == current_user.id %>
+        <% if @labeltask.have_solution?(line_number) %>
+          <%= form_for [@labeltask,@labeltask.solutions.find_by_line_number(line_number)],
+            :html => {:method => :delete }, :remote => true do |f| %> 
+            <%= f.submit "Unlabel", :class => "btn" %>
+            <%= @labeltask.solution_label(line_number) %>
+          <% end %>
+        <% else %>
+          <% @labeljob.labels.split('|').each do |w| %>
+            <%= form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w)], :remote => true do |f| %>
+              <%= f.hidden_field :line_number %>
+              <%= f.hidden_field :label %>
+              <%= f.submit w, :class => "btn" %>
+            <% end %>
+          <% end %>
+        <% end %>
+    <% end %>
+    <% line_number += 1 %>
   <% end %>
 </p>
 
 
 
 <div class="form-actions">
+  <% if @labeltask.user_id == current_user.id %>
+    <% if @labeltask.status == 1 %>
+     <%= link_to 'Finish', finish_labeltask_path(@labeltask), :class => 'btn btn-success' %>
+    <% else %>
+      <%= link_to 'Unfinish', unfinish_labeltask_path(@labeltask), :class => 'btn btn-success' %>
+    <% end %>
+  <% end %>
   <% if @labeljob and @labeljob.approved? ==false %>
     <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
     <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
-  <% elsif @labeltask.user_id == current_user.id %>
-
   <% else %>
     <%= link_to 'Back', root_url, :class => 'btn'  %>
   <% end %>

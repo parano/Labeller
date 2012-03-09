@@ -12,12 +12,21 @@
     <% @labeltasks.each do |task| %>
       <tr>
         <td><%= link_to task.id, labeltask_path(task) %></td>
-        <td><%= task.status %></td>
+        <% if task.status == 1 %>
+        <td>Unfinished</td>
+        <% else %>
+        <td>Finished</td>
+        <% end %>
         <td><%= user_email(task.user_id) %></td>
         <td>
-          <%= link_to 'Edit', edit_labeltask_path(task), :class => 'btn btn-mini' %>
+          <% if task.status == 1 %>
+            <%= link_to 'Finish', finish_labeltask_path(task), :class => 'btn btn-mini' %>
+          <% else %>
+            <%= link_to 'Unfinish', unfinish_labeltask_path(task), :class => 'btn btn-mini' %>
+          <% end %>
         </td>
       </tr>
     <% end %>
+
   </tbody>
 </table>
