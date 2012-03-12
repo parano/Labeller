@@ -1,0 +1,2 @@
+insert into student values ('00128', 'Zhang', 'Comp. Sci.', '102');
+RedHat

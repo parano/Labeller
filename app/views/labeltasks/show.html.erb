@@ -40,9 +40,10 @@
                 <% else %>
                   <div class="label" >
                   <% @labeljob.labels.split('|').each do |w| %>
-                      <%= simple_form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w)], :remote => true do |f| %>
+                      <%= simple_form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w, :rawdata => line)], :remote => true do |f| %>
                         <%= f.hidden_field :line_number %>
                         <%= f.hidden_field :label %>
+                        <%= f.hidden_field :rawdata %>
                         <%= f.submit w, :class => "btn btn-large", :disable_with => "choosing #{w}" %>
                       <% end %>
                   <% end %>
@@ -67,7 +68,7 @@
       <%= link_to 'Unfinish', unfinish_labeltask_path(@labeltask), :class => 'btn btn-success' %>
     <% end %>
   <% end %>
-  <% if @labeljob and @labeljob.approved? ==false %>
+  <% if not current_user.labeller? %>
     <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
   <% else %>
     <%= link_to 'Back', root_url, :class => 'btn'  %>

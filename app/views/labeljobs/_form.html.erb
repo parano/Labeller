@@ -34,7 +34,7 @@
         <%= f.date_select :deadline, :class => 'date_select span6',  :default => 7.days.from_now  %>
       </div>
     </div>
-
+    <% if params[:action] == "new"  %>
     <div class="control-group">
       <%= f.label :labels, :class => 'control-label' %>
       <div class="controls">
@@ -49,6 +49,15 @@
       </div>
     </div>
 
+    <div class="control-group">
+      <% for u in User.order("email") %>
+      <div>
+        <%= check_box_tag "labeljob[user_ids][]", u.id, @labeljob.users.include?(u) %>
+        <%= u.email %>
+      </div>
+      <% end %>
+    </div>
+    <% end %>
 
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>

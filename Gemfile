@@ -7,6 +7,7 @@ gem 'rails', '3.2.2'
 
 gem 'mysql2'
 gem 'devise'
+gem 'cancan'
 gem 'will_paginate'
 
 

@@ -1,0 +1,214 @@
+As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>
+As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>
+As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>
+As you start registering new callbacks 
+for your models, they will be queued for execution. 
+This queue will include all your model’s validations, 
+the registered callbacks, and the database operation to be executed.
+The whole callback chain is wrapped in a transaction. 
+If any before callback method returns exactly false or raises an exception, the execution chain gets halted and a ROLLBACK is issued;
+after callbacks can only accomplish that by raising an exception.
+This defines a task db:populate that resets the development database 
+using db:reset (using slightly weird syntax you shouldn’t worry about 
+too much), creates an example user with name and email address replicating 
+our previous one, and then makes 99 more. The line
+Having solved the problem of too few sample users, we now encounter the opposite problem: having too many users on a page. Right now there are a hundred, which is already a reasonably large number, and on a real site it could be thousands. The solution is to paginate the users, so that (for example) only 30 show up on a page at any one time.
+There are several pagination methods in Rails; we’ll use one of the
+ simplest and most robust, called will_paginate. To use it, we need to
+ update the Gemfile as usual (Listing 10.26). You should also restart the
+ web server to insure that the will_paginate is loaded properly.
+Listing 10.26. Including will_paginate in the Gemfile.
+source 'http://rubygems.org'
+gem 'rails', '3.0.11'
+gem 'sqlite3', '1.3.3'
+gem 'gravatar_image_tag', '1.0.0.pre2'
+gem 'will_paginate', '3.0.pre2'
+Then run bundle:
+$ bundle
+With will_paginate installed, we are now ready to paginate the results of
+ finding users. We’ll start by adding the special will_paginate method in
+ the view (Listing 10.27); we’ll see in a moment why the code appears both
+ above and below the user list.
+Listing 10.27. The user index with pagination. 
+app/views/users/index.html.erb
+<h1>All users</h1>
