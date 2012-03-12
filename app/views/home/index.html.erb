@@ -2,22 +2,23 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>name</th>
       <th>Status</th>
-      <th>User id</th>
+      <th>Initiated by</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <% @labeltasks.each do |task| %>
       <tr>
-        <td><%= link_to task.id, labeltask_path(task) %></td>
+        <% job = Labeljob.find(task.labeljob_id) %>
+        <td><%= link_to job.name, labeltask_path(task) %></td>
         <% if task.status == 1 %>
         <td>Unfinished</td>
         <% else %>
         <td>Finished</td>
         <% end %>
-        <td><%= user_email(task.user_id) %></td>
+        <td><%= user_email(job.user_id) %></td>
         <td>
           <% if task.status == 1 %>
             <%= link_to 'Finish', finish_labeltask_path(task), :class => 'btn btn-mini' %>

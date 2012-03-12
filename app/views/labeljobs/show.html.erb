@@ -46,21 +46,21 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
+      <th>Labeller</th>
       <th>Status</th>
-      <th>User id</th>
+      <th>Task id</th>
     </tr>
   </thead>
   <tbody>
     <% @labeltasks.each do |task| %>
       <tr>
-        <td><%= link_to task.id, labeltask_path(task) %></td>
+        <td><%= link_to user_email(task.user_id), labeltask_path(task) %></td>
         <% if task.status == 1 %>
         <td>Unfinished</td>
         <% else %>
         <td>Finished</td>
         <% end %>
-        <td><%= user_email(task.user_id) %></td>
+        <td><%= task.id %></td>
       </tr>
     <% end %>
 
