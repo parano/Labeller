@@ -49,7 +49,6 @@
       <th>ID</th>
       <th>Status</th>
       <th>User id</th>
-      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -62,13 +61,6 @@
         <td>Finished</td>
         <% end %>
         <td><%= user_email(task.user_id) %></td>
-        <td>
-          <% if task.status == 1 %>
-            <%= link_to 'Finish', finish_labeltask_path(task), :class => 'btn btn-mini' %>
-          <% else %>
-            <%= link_to 'Unfinish', unfinish_labeltask_path(task), :class => 'btn btn-mini' %>
-          <% end %>
-        </td>
       </tr>
     <% end %>
 
