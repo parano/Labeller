@@ -18,7 +18,7 @@
         <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
         <td><%= labeljob.created_at %></td>
         <td>
-          <%= link_to 'Approve', approve_labeljob_path(labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure? You can\'t change this status after click'%>
+          <%= link_to 'Finish', finish_labeljob_path(labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure? You can\'t reopen this job after click'%>
           <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>
           <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
         </td>
@@ -26,7 +26,7 @@
     <% end %>
   </tbody>
 </table>
-<% if @approvedjobs.nil? == false %>
+<% if @finishedjobs.nil? == false %>
   <h2 style='margin-top:40px'>Approved jobs</h2>
   <table class="table table-striped">
     <thead>
@@ -38,13 +38,12 @@
       </tr>
     </thead>
     <tbody>
-      <% @approvedjobs.each do |labeljob| %>
+      <% @finishedjobs.each do |labeljob| %>
         <tr>
           <td><%= labeljob.id %></td>
           <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
           <td><%= labeljob.created_at %></td>
           <td>
-            <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>
             <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
           </td>
         </tr>

@@ -14,3 +14,24 @@
 //= require jquery_ujs
 //= require twitter/bootstrap
 //= require_tree .
+
+// prepare the form when the DOM is ready 
+$(document).ready(function() { 
+
+  // Setup the ajax indicator
+  $('.form-actions').append("<div id='ajaxBusy' class='alert alert-info'><p>Plase Wait ......<img src='/loading.gif'>  If your raw data file is too big , it may take some time to deal with</p></div>");
+
+  $('#ajaxBusy').css({
+    display:"none",
+    margin:"30px",
+    paddingLeft:"0px",
+    paddingRight:"0px",
+    paddingTop:"0px",
+    paddingBottom:"0px",
+    width:"auto"
+  });
+});
+
+$("#create").bind("click", function(){ 
+  $('#ajaxBusy').show(); 
+})

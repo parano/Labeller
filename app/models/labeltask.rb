@@ -1,28 +1,49 @@
 class Labeltask < ActiveRecord::Base
-  belongs_to :labeljob
-  belongs_to :user
-  has_many :solutions, :dependent => :destroy
+  belongs_to  :labeljob
+  belongs_to  :user
+  has_many    :solutions, :dependent => :destroy
 
-  def have_solution?(line_number)
-  	solutions.where(:line_number => line_number).exists?
+  STATUS = %w[assigned progress submit reopen approve]
+
+  def not_editable? 
+    self.status == "submit" or self.status == "approve"
   end
 
-  def label(line_number, label, rawdata)
-  	solutions.create!(:line_number => line_number,
-  						:label => label,
-  						:rawdata => rawdata)
+  def editable?(user) 
+    (self.status != "submit" and self.status != "approve") and 
+    (self.user_id == user.id || !user.labeller?)
   end
 
-  def unlabel(line_number)
-  	solutions.find_by_line_number(line_number).destroy
+  def submitable?
+    self.status != "approve" and self.status != "submit"
   end
 
-  def solution_label(line_number)
-    solutions.where(:line_number => line_number).first.label
+  def submit?
+    self.status == "submit"
   end
 
-  def finish
-    self.update_attributes(:status => 2)
-    self.save
+  # def has_solution?(line_number)
+  # 	solutions.where(:line_number => line_number).first.label != "unknow"
+  # end
+
+  # def label(line_number, label)
+  # 	solutions.find_by_line_number(line_number).update_attributes!(:label => label)
+  # end
+
+  # def unlabel(line_number)
+  # 	solutions.find_by_line_number(line_number).update_attributes!(:label => "unknow")
+  # end
+
+  # def solution_label(line_number)
+  #   solutions.where(:line_number => line_number).first.label 
+  # end
+
+  after_create :generate_solutions
+  def generate_solutions
+    self.rawdata.split(/\n/).each_with_index do |line, line_number| 
+        self.solutions.create!( :line_number => line_number,
+                                :rawdata => line,
+                                :label => "unknow")
+    end  
   end
 end

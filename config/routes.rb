@@ -1,25 +1,27 @@
 Labeller::Application.routes.draw do
   devise_for :users, :controllers => {:registrations => "registrations"}
 
-  #devise_for :users
   root :to => "home#index"
 
   resources :labeltasks do
-    resources :solutions
+    resources :solutions do
+      member do
+        get :label
+        get :unlabel
+      end
+    end
     member do
-      get :finish
-      get :unfinish
-      get :label
-      get :unlabel
+      get :submit
+      get :undo_submit
+      get :approve
+      get :reopen
     end
   end
-
-  
 
   resources :labeljobs do
     resources :labeltasks
     member do
-      get :approve
+      get :finish
     end
   end
 

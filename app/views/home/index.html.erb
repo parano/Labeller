@@ -5,7 +5,6 @@
       <th>name</th>
       <th>Status</th>
       <th>Initiated by</th>
-      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -13,21 +12,30 @@
       <tr>
         <% job = Labeljob.find(task.labeljob_id) %>
         <td><%= link_to job.name, labeltask_path(task) %></td>
-        <% if task.status == 1 %>
-        <td>Unfinished</td>
-        <% else %>
-        <td>Finished</td>
-        <% end %>
+        <td><%= status_label task.status %></td>
         <td><%= user_email(job.user_id) %></td>
-        <td>
-          <% if task.status == 1 %>
-            <%= link_to 'Finish', finish_labeltask_path(task), :class => 'btn btn-mini' %>
-          <% else %>
-            <%= link_to 'Unfinish', unfinish_labeltask_path(task), :class => 'btn btn-mini' %>
-          <% end %>
-        </td>
       </tr>
     <% end %>
+  </tbody>
+</table>
 
+<h2>Approved Tasks</h2>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>Status</th>
+      <th>Initiated by</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @approve_tasks.each do |task| %>
+      <tr>
+        <% job = Labeljob.find(task.labeljob_id) %>
+        <td><%= link_to job.name, labeltask_path(task) %></td>
+        <td><%= status_label task.status %></td>
+        <td><%= user_email(job.user_id) %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>

@@ -1,7 +1,8 @@
 class Labeljob < ActiveRecord::Base
 	validates :name, :presence => true,
 					 :length => { :maximum => 30 }
-	validates :desc, :presence => true
+	validates :desc, :presence => true,
+                     :length => { :maximum => 3000 }
     validates :rawdata, :presence => true
     label_regex = /([^\|]*\|)+/
 	validates :labels,  :format => { :with => label_regex }
@@ -18,10 +19,6 @@ class Labeljob < ActiveRecord::Base
     after_create :generate_tasks
     mount_uploader :rawdata, RawdataUploader
 
-
-    def approved?
-        approved
-    end
 
     def label_numbers
     	self.labels.split('|').length
@@ -42,7 +39,7 @@ class Labeljob < ActiveRecord::Base
         start   = 0
 
         while i < remainder
-            self.labeltasks.create!(:status => 1,
+            self.labeltasks.create!(:status => "assigned",
                                     :rawdata => data[start..(start + tasksize)].join("\n"),
                                     :user_id => self.users[i].id)
             start = start + tasksize + 1
@@ -50,7 +47,7 @@ class Labeljob < ActiveRecord::Base
         end
 
         while i < labeller_numbers and i < length
-            self.labeltasks.create!(:status => 1,
+            self.labeltasks.create!(:status => "assigned",
                                     :rawdata => data[start..(start + tasksize - 1)].join("\n"),
                                     :user_id => self.users[i].id)
             start = start + tasksize

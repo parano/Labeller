@@ -13,20 +13,13 @@
 
 ActiveRecord::Schema.define(:version => 20120312132140) do
 
-  create_table "joblabellers", :force => true do |t|
-    t.integer  "labeljob_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
-  end
-
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
     t.text     "desc"
     t.date     "deadline"
     t.string   "labels"
     t.integer  "user_id"
-    t.boolean  "approved",   :default => false
+    t.boolean  "finished",   :default => false
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
     t.string   "rawdata"
@@ -34,15 +27,17 @@ ActiveRecord::Schema.define(:version => 20120312132140) do
 
   add_index "labeljobs", ["user_id", "created_at"], :name => "index_labeljobs_on_user_id_and_created_at"
 
-  create_table "labeljobs_users", :force => true do |t|
-    t.integer  "labeljob_id"
-    t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "labeljobs_users", :id => false, :force => true do |t|
+    t.integer "labeljob_id"
+    t.integer "user_id"
   end
 
+  add_index "labeljobs_users", ["labeljob_id", "user_id"], :name => "index_labeljobs_users_on_labeljob_id_and_user_id", :unique => true
+  add_index "labeljobs_users", ["labeljob_id"], :name => "index_labeljobs_users_on_labeljob_id"
+  add_index "labeljobs_users", ["user_id"], :name => "index_labeljobs_users_on_user_id"
+
   create_table "labeltasks", :force => true do |t|
-    t.integer  "status"
+    t.string   "status"
     t.integer  "labeljob_id"
     t.text     "rawdata"
     t.integer  "user_id"

@@ -1,0 +1,5 @@
+$("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").addClass("label-success")
+<% @labeljob.labels.split('|').each do |w| %>
+	$("#<%= @solution.line_number %> >.<%= w %>").removeClass("disabled")
+<% end %>
+$("#<%= @solution.line_number %> >.<%= @solution.label %>").toggleClass("disabled")

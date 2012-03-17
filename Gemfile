@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+# source 'https://ruby.taobao.org'
 
 gem 'rails', '3.2.2'
 
@@ -8,7 +9,9 @@ gem 'rails', '3.2.2'
 gem 'mysql2'
 gem 'devise'
 gem 'cancan'
-gem 'will_paginate'
+
+gem 'will_paginate', '3.0.2'
+gem 'bootstrap-will_paginate'
 
 
 # Gems used only for assets and not required

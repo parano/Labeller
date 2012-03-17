@@ -1,5 +1,5 @@
 # MySQL.  Versions 4.1 and 5.0 are recommended.
-# 
+#
 # Install the MYSQL driver
 #   gem install mysql2
 #
@@ -12,7 +12,7 @@ development:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: labeller_development
+  database: labeller
   pool: 5
   username: root
   password:
@@ -25,7 +25,7 @@ test:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: labeller_test
+  database: labeller
   pool: 5
   username: root
   password:
@@ -35,8 +35,10 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: labeller_production
+  database: labeller
   pool: 5
   username: root
   password:
   socket: /var/run/mysqld/mysqld.sock
+
+

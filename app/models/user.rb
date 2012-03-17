@@ -11,7 +11,6 @@ class User < ActiveRecord::Base
   has_many :labeljobs
   has_many :labeltasks
 
-
   has_and_belongs_to_many :jobs, :class_name => "Labeljob"
 
   # has_many :joblabellers

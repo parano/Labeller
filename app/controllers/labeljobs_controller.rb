@@ -7,8 +7,8 @@ class LabeljobsController < ApplicationController
     if current_user.nil?
       @labeljobs = Labeljob.all
     else
-      @labeljobs = Labeljob.where(:user_id => current_user.id, :approved => false)
-      @approvedjobs = Labeljob.where(:user_id => current_user.id, :approved => true)
+      @labeljobs = Labeljob.where(:user_id => current_user.id, :finished => false)
+      @finishedjobs = Labeljob.where(:user_id => current_user.id, :finished => true)
     end
 
     respond_to do |format|
@@ -23,6 +23,8 @@ class LabeljobsController < ApplicationController
     @labeljob = Labeljob.find(params[:id])
     @author = User.find(current_user.id)
     @labeltasks = @labeljob.labeltasks
+    @approve_count = @labeltasks.where(:status => "approve").count
+    @submit_count = @labeltasks.where(:status => "submit").count
 
     respond_to do |format|
       format.html # show.html.erb
@@ -91,23 +93,16 @@ class LabeljobsController < ApplicationController
     end
   end
 
-
-  def approve
+  # GET /labeljobs/1/finish
+  def finish
     @labeljob = Labeljob.find(params[:id])
-    @labeljob.update_attributes(:approved => true)
-    # @labeljob.labeltasks.each do |t|
-    #   t.update_attributes(:status => 2)
-    #   t.save
-    # end
-
+    @labeljob.update_attributes(:finished => true)
 
     if @labeljob.save
-      redirect_to labeljobs_url, notice: 'Label job was successfully approved'
+      redirect_to labeljobs_url, notice: 'Label job was successfully finished'
     else
-      render action: "show", notice: 'Approve Denied'
+      render action: "show", notice: 'Finish Denied'
     end
   end
-
   
-
 end

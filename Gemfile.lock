@@ -30,6 +30,8 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bootstrap-will_paginate (0.0.6)
+      will_paginate
     builder (3.0.0)
     cancan (1.6.7)
     carrierwave (0.5.8)
@@ -128,12 +130,13 @@ GEM
       multi_json (>= 1.0.2)
     warden (1.1.1)
       rack (>= 1.0)
-    will_paginate (3.0.3)
+    will_paginate (3.0.2)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap-will_paginate
   cancan
   carrierwave
   coffee-rails (~> 3.2.1)
@@ -145,4 +148,4 @@ DEPENDENCIES
   simple_form
   twitter-bootstrap-rails
   uglifier (>= 1.0.3)
-  will_paginate
+  will_paginate (= 3.0.2)

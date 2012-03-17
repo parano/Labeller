@@ -3,8 +3,8 @@
 </h1>
 
 <p style="margin-top:20px">
-  <b>Status : </b>
-  <%= "unfinished" if @labeltask.status == 1  %>
+  <b>Task Status : </b>
+  <%= @labeltask.status %>
 </p>
 
 <p>
@@ -18,62 +18,87 @@
 </p>
 
 <p>
-  <b>Dead Line</b>
+  <b>Deadline</b>
   <%= @labeljob.deadline %>
 </p>
 
+<div>
+  <% if @labeljob.user_id == current_user.id %>
+    <% if @labeltask.submit? %>  
+      <%= link_to 'Approve', approve_labeltask_path(@labeltask), :class =>'btn btn-success' %>
+    <% elsif @labeltask.not_editable? %>
+      <%= link_to 'Reopen', reopen_labeltask_path(@labeltask), :class => 'btn btn-warning' %>
+    <% else %>
+      <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
+    <% end %>
+  <% elsif @labeltask.user_id == current_user.id %>
+    <% if @labeltask.submitable? %>
+      <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
+    <% elsif @labeltask.status == "submit" %>
+      <%= link_to "Undo Submit", undo_submit_labeltask_path(@labeltask), :class => 'btn btn-info' %>
+    <% end %>
+  <% end %>
+  
+  <% if !current_user.labeller? %>
+    <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
+  <% else %>
+    <%= link_to 'Back', root_url, :class => 'btn'  %>
+  <% end %>
+</div>
+
 <p>
-  <% line_number = 0 %>
+  <%= will_paginate @solutions %>
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
         <th>Content</th>
-        <th>Actions</th>
+        <% if @labeltask.editable?(current_user) %>
+          <th>Actions</th>
+        <% end %>
+        <th>Solution</th>
       </tr>
     </thead>
-    <tbody>
-      <% @labeltask.rawdata.split(/\n/).each do |line| %>
-        <tr>
-          <td class="span7"><%= line %></td>
-          <td id="<%= line_number %>" class="span5" >
-            <% if (@labeltask.user_id == current_user.id and @labeltask.status == 1 ) or @labeljob.user_id == current_user.id %>
-                <% if @labeltask.have_solution?(line_number) %>
-                  <%= simple_form_for [@labeltask,@labeltask.solutions.find_by_line_number(line_number)],
-                    :html => {:method => :delete }, :remote => true do |f| %> 
-                    <%= f.submit "Unlabel: #{@labeltask.solution_label(line_number)}", :class => "btn", :disable_with => "Unlabeling" %>
-                  <% end %>
-                <% else %>
-                  <div class="label" >
-                  <% @labeljob.labels.split('|').each do |w| %>
-                      <%= simple_form_for [@labeltask,@labeltask.solutions.build(:line_number => line_number, :label => w, :rawdata => line)], :remote => true do |f| %>
-                        <%= f.hidden_field :line_number %>
-                        <%= f.hidden_field :label %>
-                        <%= f.hidden_field :rawdata %>
-                        <%= f.submit w, :class => "btn btn-large", :disable_with => "choosing #{w}" %>
-                      <% end %>
-                  <% end %>
-                  </div>
-                <% end %>
-              <% end %>
-            <% line_number += 1 %>
+
+    <tbody>  
+      <% @solutions.each do |solution| %>
+      <tr>
+        <td class="span6"><%= solution.rawdata %></td>
+        
+        <% if @labeltask.editable?(current_user) %>
+          <td id="<%= solution.line_number %>" class="span4 btn-group">
+            <% @labels.each do |w| %>
+              <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }" %>
+            <% end %>
           </td>
-        </tr>
-      <% end %>
+        <% end %>
+        
+        <td id="label<%= solution.line_number %>" class="span1">
+          <% if solution.has_solution? %>
+            <span class="label label-success">
+              <%= solution.label %>
+            </span>
+          <% else %>
+            <span class="label">
+              Unknow
+            </span>
+          <% end %>
+        </td>
+      </tr> 
+      <% end %>  
     </tbody>
   </table>
+  <%= will_paginate @solutions %>
 </p>
 
 
 
 <div class="form-actions">
   <% if @labeltask.user_id == current_user.id %>
-    <% if @labeltask.status == 1 %>
-     <%= link_to 'Finish', finish_labeltask_path(@labeltask), :class => 'btn btn-success' %>
-    <% else %>
-      <%= link_to 'Unfinish', unfinish_labeltask_path(@labeltask), :class => 'btn btn-success' %>
+    <% if @labeltask.submitable? %>
+      <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
     <% end %>
   <% end %>
-  <% if not current_user.labeller? %>
+  <% if !current_user.labeller? and @labeltask.user_id != current_user.id %>
     <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
   <% else %>
     <%= link_to 'Back', root_url, :class => 'btn'  %>

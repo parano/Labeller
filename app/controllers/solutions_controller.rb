@@ -1,24 +1,22 @@
 class SolutionsController < ApplicationController
-  def create
-  	@labeltask = Labeltask.find(params[:labeltask_id])
-  	@solution = @labeltask.label(params[:solution][:line_number],
-  					params[:solution][:label],
-  					params[:solution][:rawdata])
+  def label
+    @labeltask = Labeltask.find(params[:labeltask_id])
+    @labeljob = Labeljob.find(@labeltask.labeljob_id)
+    @solution = @labeltask.solutions.find(params[:id])
+    @solution.update_attributes(:label => params[:label])
 
-  	respond_to do |format|
-  		format.html { redirect_to @labeltask }
-  		format.js
-  	end
+    respond_to do |format|
+      format.js
+    end
   end
 
-  def destroy
-  	@labeltask = Labeltask.find(params[:labeltask_id])
-  	@solution = Solution.find(params[:id])
-  	@solution.destroy
+  def unlabel
+    @labeltask = Labeltask.find(params[:labeltask_id])
+    @solution = @labeltask.solutions.find(params[:id])
+    @solution.update_attributes(:label => "unknow")
 
-  	respond_to do |format|
-  		format.html { redirect_to @labeltask }
-  		format.js
-  	end
+    respond_to do |format|
+      format.js
+    end
   end
 end

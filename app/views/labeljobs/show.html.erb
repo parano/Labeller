@@ -21,21 +21,28 @@
 <p>
   <b>Labels</b><br>
   <% @labeljob.labels.split('|').each do |label| %>
-    <%= label  %>
+    <%= label %> ; 
   <% end %>
 </p>
 
 <p>
-  <b><%= link_to "Downloads the raw data", @labeljob.rawdata.url %>
-  </b><br>
+  <b>Downloads the <%= link_to "raw data", @labeljob.rawdata.url %></b><br>
+</p>
+
+<p>
+  <b>Approve/Submit/ALL:</b>  
+  <span class="label label-success"><%= @approve_count %></span>/
+  <span class="label label-important"><%= @submit_count %></span>/
+  <span class="label label-info"><%= @labeltasks.count %></span>
+  <br>
+  <% if @approve_count == @labeltasks.count %>
+    All task have been approved, You can <%= link_to 'Finish', finish_labeljob_path(@labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure? You can\'t reopen this job after click'%> this job now
+  <% end %>
 </p>
 
 
 <div class="form-actions">
-  <% if @labeljob.approved? ==false %>
-    <% if current_user.id == @author.id  %>
-      <%= link_to 'Approve', approve_labeljob_path(@labeljob), :class => 'btn btn-success'  , :confirm => 'Are you sure? You can\'t change this status after click'%>
-    <% end %>
+  <% if current_user.id == @author.id  %>
     <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
   <% end %>
   <%= link_to 'Delete', labeljob_path(@labeljob), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
@@ -55,11 +62,7 @@
     <% @labeltasks.each do |task| %>
       <tr>
         <td><%= link_to user_email(task.user_id), labeltask_path(task) %></td>
-        <% if task.status == 1 %>
-        <td>Unfinished</td>
-        <% else %>
-        <td>Finished</td>
-        <% end %>
+        <td><%= status_label task.status %></td>
         <td><%= task.id %></td>
       </tr>
     <% end %>

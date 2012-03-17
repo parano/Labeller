@@ -43,7 +43,7 @@
 
             <% if current_user %>
             <ul class="nav secondary-nav pull-right" id="userbar">
-              <li><a href="<%= edit_user_registration_path %>">个人资料设置</a></li>
+              <li><a href="<%= edit_user_registration_path %>"><%= current_user.role %>: <%= current_user.email %></a></li>
               <li><%= link_to "退出", destroy_user_session_path, method: :delete %></li>
             </ul>
           <% else %>
@@ -60,18 +60,8 @@
 
     <div class="container-fluid">
       <div class="row-fluid">
-        <div class="span3">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Status</li>
-              <% if current_user %>
-                <li>Login as <%= current_user.email %></li>
-                <li>Idendity <%= current_user.role  %></li>
-              <% end %>
-            </ul>
-          </div><!--/.well -->
-        </div><!--/span-->
-        <div class="span9">
+      
+        <div class="span12">
           <p class="notice"><%= notice %></p>
           <p class="notice"><%= alert %></p>
           <%= yield %>

@@ -6,7 +6,7 @@ class CreateLabeljobs < ActiveRecord::Migration
       t.date :deadline
       t.string :labels
       t.integer :user_id
-      t.boolean :approved, :default => false
+      t.boolean :finished, :default => false
 
       t.timestamps
     end
