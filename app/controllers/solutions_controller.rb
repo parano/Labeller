@@ -9,14 +9,4 @@ class SolutionsController < ApplicationController
       format.js
     end
   end
-
-  def unlabel
-    @labeltask = Labeltask.find(params[:labeltask_id])
-    @solution = @labeltask.solutions.find(params[:id])
-    @solution.update_attributes(:label => "unknow")
-
-    respond_to do |format|
-      format.js
-    end
-  end
 end

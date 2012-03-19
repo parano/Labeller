@@ -25,30 +25,7 @@
 </p>
 
 <div>
-  <% if !@labeljob.finished %>
-    <% if @labeljob.user_id == current_user.id %>
-      <% if @labeltask.submit? %>  
-        <%= link_to 'Approve', approve_labeltask_path(@labeltask), :class =>'btn btn-success' %>
-      <% end %>
-      <% if @labeltask.not_editable? %>
-          <%= link_to 'Reopen', reopen_labeltask_path(@labeltask), :class => 'btn btn-warning' %>
-      <% else %>
-        <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
-      <% end %>
-    <% elsif @labeltask.user_id == current_user.id %>
-      <% if @labeltask.submitable? %>
-        <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
-      <% elsif @labeltask.status == "submit" %>
-        <%= link_to "Undo Submit", undo_submit_labeltask_path(@labeltask), :class => 'btn btn-info' %>
-      <% end %>
-    <% end %>
-  <% end %>
-    
-  <% if !current_user.labeller? %>
-    <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
-  <% else %>
-    <%= link_to 'Back', root_url, :class => 'btn'  %>
-  <% end %>
+  <%= render :partial => 'manage_table' %>
 </div>
 
 <p>
@@ -98,28 +75,5 @@
 
 
 <div class="form-actions">
-  <% if !@labeljob.finished %>
-    <% if @labeljob.user_id == current_user.id %>
-      <% if @labeltask.submit? %>  
-        <%= link_to 'Approve', approve_labeltask_path(@labeltask), :class =>'btn btn-success' %>
-      <% end %>
-      <% if @labeltask.not_editable? %>
-          <%= link_to 'Reopen', reopen_labeltask_path(@labeltask), :class => 'btn btn-warning' %>
-      <% else %>
-        <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
-      <% end %>
-    <% elsif @labeltask.user_id == current_user.id %>
-      <% if @labeltask.submitable? %>
-        <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
-      <% elsif @labeltask.status == "submit" %>
-        <%= link_to "Undo Submit", undo_submit_labeltask_path(@labeltask), :class => 'btn btn-info' %>
-      <% end %>
-    <% end %>
-  <% end %>
-    
-  <% if !current_user.labeller? %>
-    <%= link_to 'Back', labeljob_path(@labeljob), :class => 'btn'  %>
-  <% else %>
-    <%= link_to 'Back', root_url, :class => 'btn'  %>
-  <% end %>
+  <%= render :partial => 'manage_table' %>
 </div>

@@ -7,7 +7,6 @@ Labeller::Application.routes.draw do
     resources :solutions do
       member do
         get :label
-        get :unlabel
       end
     end
     member do
