@@ -69,6 +69,7 @@ class LabeltasksController < ApplicationController
   def reopen
     @labeltask = Labeltask.find(params[:id])
     @labeltask.update_attributes(:status => "reopen")
+    @labeljob = Labeljob.find(@labeltask.labeljob_id)
 
     if @labeltask.save
       redirect_to @labeltask, notice: 'Label task was reopend'
