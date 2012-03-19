@@ -28,8 +28,9 @@
   <% if @labeljob.user_id == current_user.id %>
     <% if @labeltask.submit? %>  
       <%= link_to 'Approve', approve_labeltask_path(@labeltask), :class =>'btn btn-success' %>
-    <% elsif @labeltask.not_editable? %>
-      <%= link_to 'Reopen', reopen_labeltask_path(@labeltask), :class => 'btn btn-warning' %>
+      <% if @labeltask.not_editable? %>
+        <%= link_to 'Reopen', reopen_labeltask_path(@labeltask), :class => 'btn btn-warning' %>
+      <% end %>
     <% else %>
       <%= link_to 'Submit', submit_labeltask_path(@labeltask), :class => 'btn btn-success' %>
     <% end %>
@@ -67,7 +68,7 @@
         <td class="span6"><%= solution.rawdata %></td>
         
         <% if @labeltask.editable?(current_user) %>
-          <td id="<%= solution.line_number %>" class="span4 btn-group">
+          <td id="<%= solution.line_number %>" class="span4">
             <% @labels.each do |w| %>
               <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }" %>
             <% end %>

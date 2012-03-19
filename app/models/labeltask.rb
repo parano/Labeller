@@ -46,4 +46,5 @@ class Labeltask < ActiveRecord::Base
                                 :label => "unknow")
     end  
   end
+
 end

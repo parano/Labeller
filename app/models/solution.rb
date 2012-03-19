@@ -4,5 +4,4 @@ class Solution < ActiveRecord::Base
   def has_solution?
   	self.label != "unknow"
   end
-
 end
