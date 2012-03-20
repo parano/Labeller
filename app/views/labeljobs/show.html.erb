@@ -2,7 +2,6 @@
     <%= @labeljob.name %>
 </h1>
 
-
 <p style="margin-top: 20px">
   <b>Created by</b><br>
   <%= @author.email %>
@@ -40,7 +39,6 @@
   <% end %>
 </p>
 
-
 <div class="form-actions">
   <% if current_user.id == @author.id  %>
     <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
@@ -69,6 +67,5 @@
         </td>
       </tr>
     <% end %>
-
   </tbody>
 </table>

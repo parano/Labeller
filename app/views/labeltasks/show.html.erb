@@ -1,10 +1,10 @@
 <h3>Labeljob Name :
-    <%= @labeljob.name %>
+  <%= @labeljob.name %>
 </h3>
 
 <p style="margin-top:20px">
   <b>Task Status : </b>
-  <%= status_label @labeltask.status %>: 
+  <%= status_label @labeltask.status %>:
   <span class="label label-success"><%= @labeltask.solutions.where("label!='unknow'").count %></span>/
   <span class="label label-info"><%= @labeltask.solutions.count %></span>
 </p>
@@ -28,7 +28,7 @@
   <%= render :partial => 'manage_table' %>
 </div>
 
-<p>
+<p id="solutions">
   <%= will_paginate @solutions %>
   <table class="table table-bordered table-striped">
     <thead>
@@ -41,38 +41,12 @@
       </tr>
     </thead>
 
-    <tbody>  
-      <% @solutions.each do |solution| %>
-      <tr>
-        <td class="span6"><%= solution.rawdata %></td>
-        
-        <% if @labeltask.editable?(current_user) %>
-          <td id="<%= solution.line_number %>" class="span4">
-            <% @labels.each do |w| %>
-              <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }" %>
-            <% end %>
-          </td>
-        <% end %>
-        
-        <td id="label<%= solution.line_number %>" class="span1">
-          <% if solution.has_solution? %>
-            <span class="label label-success">
-              <%= solution.label %>
-            </span>
-          <% else %>
-            <span class="label">
-              Unknow
-            </span>
-          <% end %>
-        </td>
-      </tr> 
-      <% end %>  
+    <tbody>
+      <%= render @solutions %>
     </tbody>
   </table>
   <%= will_paginate @solutions %>
 </p>
-
-
 
 <div class="form-actions">
   <%= render :partial => 'manage_table' %>

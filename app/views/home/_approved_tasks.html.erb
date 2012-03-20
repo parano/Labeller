@@ -1,0 +1,23 @@
+<h2>Approved Tasks</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>Status</th>
+      <th>Initiated by</th>
+      <th>Deadline</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @approved_tasks.each do |task| %>
+      <tr>
+        <% job = Labeljob.find(task.labeljob_id) %>
+        <td><%= link_to job.name, labeltask_path(task) %></td>
+        <td><%= status_label task.status %></td>
+        <td><%= user_email(job.user_id) %></td>
+        <td><%= job.deadline %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
