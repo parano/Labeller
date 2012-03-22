@@ -40,5 +40,4 @@ class User < ActiveRecord::Base
   def default_values
     self.role ||= 'labeller'
   end
-
 end

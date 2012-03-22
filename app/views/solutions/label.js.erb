@@ -1,13 +1,10 @@
 <% if @solution.label != 'unknow' %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").addClass("label-success")
-	$("#button<%= @solution.line_number %>").text("undo").addClass("btn-warning")
 <% else %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").removeClass("label-success")
-  $("#button<%= @solution.line_number %>").text("label").removeClass("btn-warning")
 <% end %>
-<% if @labeljob.classic? %>
-  <% @labeljob.labels.split('|').each do |w| %>
-    $("#<%= @solution.line_number %> >.<%= w %>").removeClass("disabled")
-  <% end %>
-  $("#<%= @solution.line_number %> >.<%= @solution.label %>").toggleClass("disabled")
+<% @labeljob.labels.split('|').each do |w| %>
+$("#<%= @solution.line_number %> >.<%= w %>").removeClass("disabled")
 <% end %>
+$("#<%= @solution.line_number %> >.<%= @solution.label %>").toggleClass("disabled")
+

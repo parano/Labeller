@@ -7,6 +7,7 @@ Labeller::Application.routes.draw do
     resources :solutions do
       member do
         get :label
+        get :word_label
       end
     end
     member do

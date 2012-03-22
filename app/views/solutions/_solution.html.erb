@@ -1,15 +1,15 @@
 <tr>
-  <td id="text<%= solution.line_number %>" class="span6"><%= solution.rawdata %></td>
+  <td id="text<%= solution.line_number %>" class="span6 rawdata"><%= solution.rawdata %></td>
   <% if @labeltask.editable?(current_user) %>
     <% if @labeljob.classic? %>
-      <td id="<%= solution.line_number %>" class="span4">
+      <td id="<%= solution.line_number %>" class="span4 btn-group">
         <% @labels.each do |w| %>
           <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }" %>
         <% end %>
       </td>
     <% else %>
       <td class="span4">
-        <%= link_to (solution.has_solution? ? 'undo':'label'), label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
+        <%= link_to (solution.has_solution? ? 'undo':'label'), word_label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
       </td>
     <% end %>
   <% end %>

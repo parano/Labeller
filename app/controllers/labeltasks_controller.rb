@@ -7,11 +7,10 @@ class LabeltasksController < ApplicationController
     @labeltask = Labeltask.find(params[:id])
     @labeljob = Labeljob.find(@labeltask.labeljob_id)
     @solutions = @labeltask.solutions.paginate(:page => params[:page], :per_page => 100)
-    
-  
-
     @owner = User.find(@labeltask.user_id)
     @labels = @labeljob.labels.split('|')
+    @finished_solution = @solutions.delete_if{ |item| item.label == 'unknow'}
+    @unfinished_solution = @solutions.delete_if{ |item| item.label != 'unknow'}
 
     if @labeltask.status == "assigned" and current_user == @owner
       @labeltask.update_attributes(:status => "progress")

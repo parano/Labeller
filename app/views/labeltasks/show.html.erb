@@ -42,7 +42,8 @@
     </thead>
 
     <tbody>
-      <%= render @solutions %>
+      <%= render @unfinished_solution %>
+      <%= render @finished_solution %>
     </tbody>
   </table>
   <%= will_paginate @solutions %>

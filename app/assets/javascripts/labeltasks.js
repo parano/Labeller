@@ -27,9 +27,6 @@ Parano.Selector.select = function(){
 $(document).ready(function(){
   $(document).bind("mouseup", Parano.Selector.select);
   $(document).bind("mousedown", Parano.Selector.select);
-  // $(document).bind.mouseup(function(){
-  //   //get the id , and see if the st is a substring of text#{id}
-  // });
 
   $(".label_word").mouseover(function(){
     var s = $(this).attr("href");

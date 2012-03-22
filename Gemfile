@@ -12,7 +12,7 @@ gem 'cancan'
 
 gem 'will_paginate', '3.0.2'
 gem 'bootstrap-will_paginate'
-gem 'delayed_job_active_record'
+# gem 'delayed_job_active_record'
 
 # Gems used only for assets and not required
 # in production environments by default.
