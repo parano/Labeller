@@ -11,23 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120322121016) do
-
-  create_table "delayed_jobs", :force => true do |t|
-    t.integer  "priority",   :default => 0
-    t.integer  "attempts",   :default => 0
-    t.text     "handler"
-    t.text     "last_error"
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by"
-    t.string   "queue"
-    t.datetime "created_at",                :null => false
-    t.datetime "updated_at",                :null => false
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
+ActiveRecord::Schema.define(:version => 20120312132140) do
 
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
@@ -39,6 +23,7 @@ ActiveRecord::Schema.define(:version => 20120322121016) do
     t.datetime "created_at",                    :null => false
     t.datetime "updated_at",                    :null => false
     t.string   "rawdata"
+    t.string   "filter"
   end
 
   add_index "labeljobs", ["user_id", "created_at"], :name => "index_labeljobs_on_user_id_and_created_at"
@@ -55,10 +40,10 @@ ActiveRecord::Schema.define(:version => 20120322121016) do
   create_table "labeltasks", :force => true do |t|
     t.string   "status"
     t.integer  "labeljob_id"
-    t.text     "rawdata"
+    t.text     "rawdata",     :limit => 2147483647
     t.integer  "user_id"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
   end
 
   add_index "labeltasks", ["labeljob_id", "user_id"], :name => "index_labeltasks_on_labeljob_id_and_user_id"

@@ -18,6 +18,7 @@ class Labeljob < ActiveRecord::Base
   # after_save :generate_tasks
   after_create :generate_tasks
   mount_uploader :rawdata, RawdataUploader
+  mount_uploader :filter, FilterUploader
 
   def word_label?
     self.labels.blank?
@@ -31,17 +32,29 @@ class Labeljob < ActiveRecord::Base
     self.labels.split('|').length
   end
 
+  def filtrate_rawdata
+
+  end
+
   def generate_tasks
     # first , delete all the old tasks
     self.labeltasks.each { |task| task.destroy } if self.labeltasks !=nil
 
-    data             = self.rawdata.read.split(/\n/).delete_if { |i| i=="" }
+    data             = self.rawdata.read.split(/\n/).delete_if { |i| i == "" }
+    if self.word_label? and !self.filter.url.nil?
+      #filtrate the rawdata
+      self.filter.read.split(/\n/).delete_if { |i| i == "" }.each do |filter|
+        data.delete_if { |item| item.include?(filter) }
+      end
+    end
+
     length           = data.length
     labellers        = self.users
     labeller_numbers = labellers.length
     tasksize         = length / labeller_numbers
     remainder        = length % labeller_numbers
 
+ 
     i       = 0
     start   = 0
 
