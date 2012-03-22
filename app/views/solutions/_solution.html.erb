@@ -9,7 +9,7 @@
       </td>
     <% else %>
       <td class="span4">
-        <%= link_to 'label', label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "label" + solution.line_number.to_s, :class => "label_word btn btn-large" %>
+        <%= link_to (solution.has_solution? ? 'undo':'label'), label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
       </td>
     <% end %>
   <% end %>
@@ -20,7 +20,7 @@
       </span>
     <% else %>
       <span class="label">
-        Unknow
+        unknow
       </span>
     <% end %>
   </td>

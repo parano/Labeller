@@ -61,4 +61,10 @@ class Labeljob < ActiveRecord::Base
       i += 1
     end
   end
+
+  def label_all word
+  end
+
+  def delete_all word
+  end
 end
