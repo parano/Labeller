@@ -29,7 +29,7 @@ class LabeltasksController < ApplicationController
     @solutions = @labeltask.solutions.paginate(:page => params[:page], :per_page => 100)
     @owner = User.find(@labeltask.user_id)
     @labels = @labeljob.labels.split('|')
-    
+
     @labeltask.update_attributes(:status => "submit")
 
     if @labeltask.save
@@ -45,7 +45,7 @@ class LabeltasksController < ApplicationController
     @solutions = @labeltask.solutions.paginate(:page => params[:page], :per_page => 100)
     @owner = User.find(@labeltask.user_id)
     @labels = @labeljob.labels.split('|')
-    
+
     @labeltask.update_attributes(:status => "progress")
 
     if @labeltask.save
@@ -63,7 +63,7 @@ class LabeltasksController < ApplicationController
     @labels = @labeljob.labels.split('|')
 
     if  @labeltask.status == "submit" and @labeltask.update_attributes(:status => "approve") and @labeltask.save
-      redirect_to @labeltask, notice: 'Label task was approved'
+      redirect_to @labeljob, notice: 'Label task was approved'
     else
       render action: "show", notice: 'Approve Denied'
     end
@@ -75,7 +75,7 @@ class LabeltasksController < ApplicationController
     @labeljob = Labeljob.find(@labeltask.labeljob_id)
 
     if @labeltask.save
-      redirect_to @labeltask, notice: 'Label task was reopend'
+      redirect_to @labeljob, notice: 'Label task was reopend'
     else
       render action: "show", notice: 'Reopen Denied'
     end

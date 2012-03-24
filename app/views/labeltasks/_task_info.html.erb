@@ -1,0 +1,36 @@
+<div class="row">
+  <h2 class="span10">
+    <% if @labeljob.word_label? %>
+      Word
+    <% else %>
+      Class
+    <% end %>
+    Label Job :
+    <%= @labeljob.name %>
+  </h2>
+</div>
+
+<p style="margin-top:20px">
+  <b>Task Status : </b>
+  <%= status_label @labeltask.status %>:
+  <span class="label label-success"><%= @labeltask.solutions.where("label!='unknow'").count %></span>/
+  <span class="label label-info"><%= @labeltask.solutions.count %></span>
+</p>
+
+<p>
+  <b>Owner : </b>
+  <%= @owner.email %>
+</p>
+
+<div class="alert alert-info">
+  <h4 class="alert-heading">Description:</h4>
+  <p style="margin-top: 8px"><%= raw @labeljob.desc %></p>
+</div>
+
+
+<p>
+  <b>Deadline : </b>
+  <%= @labeljob.deadline %>
+</p>
+
+

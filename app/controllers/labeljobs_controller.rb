@@ -99,10 +99,22 @@ class LabeljobsController < ApplicationController
     @labeljob.update_attributes(:finished => true)
 
     if @labeljob.save
-      redirect_to labeljobs_url, notice: 'Label job was successfully finished'
+      redirect_to @labeljob, notice: 'Label job was successfully finished'
     else
       render action: "show", notice: 'Finish Denied'
     end
   end
-  
+
+  # GET /labeljobs/1/reopen
+  def reopen
+    @labeljob = Labeljob.find(params[:id])
+    @labeljob.update_attributes(:finished => false)
+
+    if @labeljob.save
+      redirect_to @labeljob, notice: 'Label job was successfully UNDO finished'
+    else
+      render action: "show", notice: 'UNDO Denied'
+    end
+  end
+
 end

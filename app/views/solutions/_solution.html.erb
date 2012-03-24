@@ -1,27 +1,29 @@
 <tr>
-  <td id="text<%= solution.line_number %>" class="span6 rawdata"><%= solution.rawdata %></td>
+  <td id="text<%= solution.line_number %>" class="rawdata"><%= solution.rawdata %></td>
   <% if @labeltask.editable?(current_user) %>
     <% if @labeljob.classic? %>
-      <td id="<%= solution.line_number %>" class="span4 btn-group">
+      <td style='text-align: center' id="<%= solution.line_number %>" <% if @labeljob.labels.length < 25 %>class="btn-group"<% end %>>
         <% @labels.each do |w| %>
-          <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }" %>
+          <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }", :style => 'margin-top: 2px' %>
         <% end %>
       </td>
     <% else %>
-      <td class="span4">
+      <td style='text-align: center' >
         <%= link_to (solution.has_solution? ? 'undo':'label'), word_label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
       </td>
     <% end %>
   <% end %>
-  <td id="label<%= solution.line_number %>" class="span1">
-    <% if solution.has_solution? %>
-      <span class="label label-success">
-        <%= solution.label %>
-      </span>
-    <% else %>
-      <span class="label">
-        unknow
-      </span>
-    <% end %>
-  </td>
+  <% if @labeljob.word_label? or @labeljob.finished or !@labeltask.editable?(current_user) %>
+    <td style='text-align: center' id="label<%= solution.line_number %>" class='label_solution'>
+      <% if solution.has_solution? %>
+        <span class="label label-success">
+          <%= solution.label %>
+        </span>
+      <% else %>
+        <span class="label">
+          unknow
+        </span>
+      <% end %>
+    </td>
+  <% end %>
 </tr>

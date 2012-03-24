@@ -1,25 +1,23 @@
-<% if !@finishedjobs.nil? %>
-  <h2 style='margin-top:40px'>Approved Jobs</h2>
-  <table class="table table-striped table-bordered">
-    <thead>
+<h2 style="margin-bottom: 20px" style='margin-top:60px'>Approved Jobs</h2>
+<table class="table table-striped table-bordered">
+  <thead>
+    <tr>
+      <th class="span3">Name</th>
+      <th class="span3">Created at</th>
+      <th class="span3">Number of Tasks</th>
+      <th class="span3">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @finishedjobs.each do |labeljob| %>
       <tr>
-        <th>Name</th>
-        <th>Created at</th>
-        <th>Number of Tasks</th>
-        <th>Actions</th>
+        <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
+        <td><%= labeljob.created_at %></td>
+        <td><%= labeljob.labeltasks.count %></td>
+        <td>
+          <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
       </tr>
-    </thead>
-    <tbody>
-      <% @finishedjobs.each do |labeljob| %>
-        <tr>
-          <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
-          <td><%= labeljob.created_at %></td>
-          <td><%= labeljob.labeltasks.count %></td>
-          <td>
-            <%= link_to 'Destroy', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% end %>
+    <% end %>
+  </tbody>
+</table>

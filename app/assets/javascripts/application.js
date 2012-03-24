@@ -19,8 +19,13 @@
 $(document).ready(function() {
 
   // Setup the ajax indicator
-  $('.form-actions').append("<div id='ajaxBusy' class='alert alert-info'><p>Plase Wait ......<img src='/loading.gif'>  If your raw data file is too big , it may take some time to deal with</p></div>");
+  $('.labellers').append("<div id='ajaxBusy' class='alert alert-info'><p>Plase Wait ......<div class='progress progress-striped active'><div class='bar' style='width: 100%;'></div></div>  If your raw data file is too big , it may take some time to deal with</p></div>");
 
+  //<div class="progress progress-striped
+  //     active">
+  //  <div class="bar"
+  //       style="width: 40%;"></div>
+  //</div>
   $('#ajaxBusy').css({
     display:"none",
     margin:"30px",

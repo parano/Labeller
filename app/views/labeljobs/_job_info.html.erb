@@ -1,0 +1,70 @@
+<div class="row">
+  <h1 class="span10">
+    <% if @labeljob.word_label? %>
+      Word
+    <% else %>
+      Class
+    <% end %>
+    Label Job :
+    <%= @labeljob.name %>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="span7">
+    <p style="margin-top: 20px">
+      <b>Created by:</b><br>
+      <%= @author.email %>
+    </p>
+
+    <div class="alert alert-info">
+      <h4 class="alert-heading">Description:</h4>
+      <p style="margin-top: 8px"><%= raw @labeljob.desc %></p>
+    </div>
+  </div>
+
+  <div class="span5">
+    <p style="margin-top: 20px">
+      <b>Deadline:</b><br>
+      <%= @labeljob.deadline %>
+    </p>
+
+    <p>
+      <b>Downloads the <%= link_to 'raw data', @labeljob.rawdata.url %></b><br>
+    </p>
+
+    <% if @labeljob.classic? %>
+      <p>
+        <b>Labels</b><br>
+        <% @labeljob.labels.split('|').each do |label| %>
+          <%= label %> ;
+        <% end %>
+      </p>
+    <% elsif !@labeljob.filter.url.nil? %>
+      <p>
+        <b>Downloads the <%= link_to 'filter data', @labeljob.filter.url %></b>
+      </p>
+    <% end %>
+
+    <p class="alert alert-info">
+      <b>Approve:</b>
+      <span class="label label-success"><%= @approve_count %></span>
+      <b>,Submit:</b>
+      <span class="label label-important"><%= @submit_count %></span>
+      <b>,All:</b>
+      <span class="label label-info"><%= @labeltasks.count %></span>
+
+      <% if !@labeljob.finished == true and @approve_count == @labeltasks.count %>
+        <div class="well alert alert-success" style="margin-top: 10px">
+          All task have been approved, You can <%= link_to 'Finish', finish_labeljob_path(@labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure the job is currently finished? You can reopen it in the job info page after click'%> this job now
+        </div>
+      <% elsif @labeljob.finished == true %>
+        <div class="well alert alert-warning" style="margin-top: 10px">
+          This job is already finished,  You can <%= link_to 'REOPEN', reopen_labeljob_path(@labeljob), :class => 'btn btn-mini btn-warning'  , :confirm => 'Are you sure to reopen this job?'%> this job now
+        </div>
+
+      <% end %>
+    </p>
+
+  </div>
+</div>

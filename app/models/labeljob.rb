@@ -32,10 +32,6 @@ class Labeljob < ActiveRecord::Base
     self.labels.split('|').length
   end
 
-  def filtrate_rawdata
-
-  end
-
   def generate_tasks
     # first , delete all the old tasks
     self.labeltasks.each { |task| task.destroy } if self.labeltasks !=nil
@@ -54,7 +50,7 @@ class Labeljob < ActiveRecord::Base
     tasksize         = length / labeller_numbers
     remainder        = length % labeller_numbers
 
- 
+
     i       = 0
     start   = 0
 
@@ -77,7 +73,7 @@ class Labeljob < ActiveRecord::Base
 
   def label_all(word)
     self.labeltasks.each do |task|
-      task.solutions.where("label = 'unknow' AND rawdata LIKE '%#{word}%'").update_all "label = '#{word}'"  
+      task.solutions.where("label = 'unknow' AND rawdata LIKE '%#{word}%'").update_all "label = '#{word}'"
     end
   end
 

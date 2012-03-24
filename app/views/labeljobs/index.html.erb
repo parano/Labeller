@@ -1,6 +1,16 @@
-<%= link_to 'New Label Job', new_labeljob_path, :class => 'btn btn-primary pull-right' %>
+<% if !@labeljobs.blank? %>
+  <%= link_to 'New Label Job', new_labeljob_path, :class => 'btn btn-large btn-primary pull-right' %>
+  <%= render :partial => 'label_jobs' %>
+<% else %>
+  <div class="row hero-unit" align="center">
+    <h1>CREATE LABEL JOB HERE ! ->
+      <%= link_to 'New Label Job', new_labeljob_path, :class => 'btn btn-primary btn-large' %>
+    </h1>
+  </div>
+<% end %>
 
-
-<%= render :partial => 'label_jobs' %>
 <hr>
-<%= render :partial => 'finished_jobs' %>
+<% if !@finishedjobs.blank? %>
+  <%= render :partial => 'finished_jobs' %>
+<% end %>
+

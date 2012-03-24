@@ -15,8 +15,8 @@
 
         <% if current_user %>
           <ul class="nav secondary-nav pull-right" id="userbar">
-            <li><a href="<%= edit_user_registration_path %>"><%= current_user.role %>: <%= current_user.email %></a></li>
-            <li><%= link_to "exit", destroy_user_session_path, method: :delete %></li>
+            <li><a href="<%= edit_user_registration_path %>"><%= current_user.role.capitalize %>: <%= current_user.email %></a></li>
+            <li><%= link_to "Sign out", destroy_user_session_path, method: :delete %></li>
           </ul>
         <% else %>
           <ul class="nav secondary-nav pull-right" id="userbar">

@@ -22,6 +22,7 @@ Labeller::Application.routes.draw do
     resources :labeltasks
     member do
       get :finish
+      get :reopen
     end
   end
 

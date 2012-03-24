@@ -1,10 +1,11 @@
-<h1>Label Jobs</h1>
+<h1 style="margin-bottom: 20px">Label Jobs</h1>
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Task Status:   <b>Approve/Submit/ALL:</b></th>
-      <th>Actions</th>
+      <th class="span3">Name</th>
+      <th class="span3">Task Status:</th>
+      <th class="span3">Deadline</th>
+      <th class="span3">Actions</th>
     </tr>
   </thead>
   <tbody>
@@ -12,9 +13,15 @@
       <tr>
         <td><%= link_to labeljob.name, labeljob_path(labeljob) %></td>
         <td>
-          <span class="label label-success"><%= labeljob.labeltasks.where(:status => "approve").count %></span>/
-          <span class="label label-important"><%= labeljob.labeltasks.where(:status => "submit").count %></span>/
+          <b>Approve:</b>
+          <span class="label label-success"><%= labeljob.labeltasks.where(:status => "approve").count %></span>
+          <b>,Submit:</b>
+          <span class="label label-important"><%= labeljob.labeltasks.where(:status => "submit").count %></span>
+          <b>,All:</b>
           <span class="label label-info"><%= labeljob.labeltasks.count %></span>
+        </td>
+        <td>
+          <%= labeljob.deadline %>
         </td>
         <td>
           <%= link_to 'Edit', edit_labeljob_path(labeljob), :class => 'btn btn-mini' %>

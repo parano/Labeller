@@ -32,8 +32,13 @@
       <div class="row-fluid">
 
         <div class="span12">
-          <p class="notice"><%= notice %></p>
-          <p class="notice"><%= alert %></p>
+          <% if notice or alert %>
+            <div class="alert alert-block">
+              <a class="close" data-dismiss="alert">×</a>
+              <p class="notice"><%= notice %></p>
+              <p class="notice"><%= alert %></p>
+            </div>
+          <% end %>
           <%= yield %>
         </div>
       </div><!--/row-->
@@ -42,8 +47,10 @@
       <% if Rails.env.development?%>
         <% debug(params)%>
       <% end%>
-      <footer>
-        <p>&copy; summba</p>
+
+      <p class="pull-right"><a href="#">Back to top</a></p>
+      <footer align="center">
+        <p>&copy; Summba 2012</p>
       </footer>
 
     </div> <!-- /container -->

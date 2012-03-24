@@ -12,19 +12,19 @@
 
 <%= form_for @labeljob, :html => { :class => 'form-horizontal', :multipart => true } do |f| %>
   <fieldset>
-    <legend><%= controller.action_name.capitalize %> Labeljob</legend>
+    <legend><%= controller.action_name.capitalize %> Label Job</legend>
 
     <div class="control-group">
       <%= f.label :name, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :name, :class => 'text_field span6' %>
+        <%= f.text_field :name, :class => 'text_field span6', :placeholder => '输入此次LabelJob的名称' %>
       </div>
     </div>
 
     <div class="control-group">
       <%= f.label :desc, :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_area :desc, :class => 'text_area span6', :style => "height: 200px" %>
+        <%= f.text_area :desc, :class => 'text_area span6', :style => "height: 130px", :placeholder => '输入Job任务的详细描述与要求，您选择的Labeller们将会看到这些内容' %>
       </div>
     </div>
 
@@ -55,7 +55,7 @@
           <%= f.text_field :labels, :class => 'text_field' %>
         </div>
 
-        
+
       </div>
 
       <div class="control-group">
@@ -65,7 +65,7 @@
         </div>
       </div>
 
-      <div class="control-group">
+      <div class="control-group labellers">
         <label class="control-label">Labellers</label>
         <div class="controls">
           <% for u in User.order("email") %>

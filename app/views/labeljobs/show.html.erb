@@ -1,45 +1,8 @@
-<h1>Labeljob Name:
-    <%= @labeljob.name %>
-</h1>
+<div class="well">
+  <%= render :partial => 'job_info' %>
+</div>
 
-<p style="margin-top: 20px">
-  <b>Created by</b><br>
-  <%= @author.email %>
-</p>
-
-<p>
-  <b>Desc</b><br>
-  <%= @labeljob.desc %>
-</p>
-
-<p>
-  <b>Deadline</b><br>
-  <%= @labeljob.deadline %>
-</p>
-
-<p>
-  <b>Labels</b><br>
-  <% @labeljob.labels.split('|').each do |label| %>
-    <%= label %> ; 
-  <% end %>
-</p>
-
-<p>
-  <b>Downloads the <%= link_to "raw data", @labeljob.rawdata.url %></b><br>
-</p>
-
-<p>
-  <b>Approve/Submit/ALL:</b>  
-  <span class="label label-success"><%= @approve_count %></span>/
-  <span class="label label-important"><%= @submit_count %></span>/
-  <span class="label label-info"><%= @labeltasks.count %></span>
-  <br>
-  <% if @approve_count == @labeltasks.count %>
-    All task have been approved, You can <%= link_to 'Finish', finish_labeljob_path(@labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure? You can\'t reopen this job after click'%> this job now
-  <% end %>
-</p>
-
-<div class="form-actions">
+<div class="well">
   <% if current_user.id == @author.id  %>
     <%= link_to 'Edit', edit_labeljob_path(@labeljob), :class => 'btn btn-warning' %>
   <% end %>
@@ -51,21 +14,35 @@
 <table class="table table-striped table-bordered">
   <thead>
     <tr>
-      <th>Labeller</th>
-      <th>Status</th>
-      <th>Finished Items/All Items</th>
+      <th class="span3">Labeller</th>
+      <th class="span3">Status</th>
+      <th class="span3">Finished Items/All Items</th>
     </tr>
   </thead>
   <tbody>
     <% @labeltasks.each do |task| %>
       <tr>
         <td><%= link_to user_email(task.user_id), labeltask_path(task) %></td>
-        <td><%= status_label task.status %></td>
-        <td>
-          <span class="label label-success"><%= task.solutions.where("label!='unknow'").count %></span>/
-          <span class="label label-info"><%= task.solutions.count %></span>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
+        <td><%= status_label task.status %>
+        <% if task.submit? %>
+          <%= link_to 'Approve', approve_labeltask_path(task), :class =>'btn btn-success btn-mini' %>,
+          <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
+        <% elsif task.not_editable? %>
+          <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
+        <% end %>
+      </td>
+      <td>
+        <% scount = task.solutions.where("label!='unknow'").count %>
+        <% acount = task.solutions.count  %>
+        <span class="label label-success"><%= scount %></span>/
+        <span class="label label-info"><%= acount %></span>
+      </td>
+      <td class="span4">
+        <div class="progress progress-success progress-striped" style="margin-bottom: 3px">
+          <div class="bar" style="width: <%= number_to_percentage(scount.to_f/acount*100) %>"><p style="color: DarkMagenta"><%= number_to_percentage(scount.to_f/acount*100, :precision => 0) %></p></div>
+        </div>
+      </td>
+    </tr>
+  <% end %>
+</tbody>
 </table>
