@@ -1,10 +1,10 @@
-<% if @solution.label != 'unknow' %>
+<% if @solution.label != 'unknown' %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").addClass("label-success")
 <% else %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").removeClass("label-success")
 <% end %>
 <% @labeljob.labels.split('|').each do |w| %>
-$("#<%= @solution.line_number %> >.<%= w %>").removeClass("disabled")
+$("#<%= @solution.line_number %> >.<%= w %>").removeClass("btn-success")
 <% end %>
-$("#<%= @solution.line_number %> >.<%= @solution.label %>").toggleClass("disabled")
+$("#<%= @solution.line_number %> >.<%= @solution.label %>").toggleClass("btn-success")
 

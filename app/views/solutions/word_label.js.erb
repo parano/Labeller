@@ -2,7 +2,7 @@
   $("td.rawdata").each(function(){
     if($(this).text().indexOf("<%= @label[1] %>") > -1){
       var id = $(this).attr("id").substring(4);
-      if ($("#label" + id + "> span").text().indexOf('unknow') > -1 ){
+      if ($("#label" + id + "> span").text().indexOf('unknown') > -1 ){
         $("#label" + id + "> span").text("<%= @label[1] %>").addClass("label-success");
         $("#button" + id).text("undo").addClass("btn-warning");
       }
@@ -12,7 +12,7 @@
   $("td.label_solution").each(function(){
     if($(this).text().indexOf('<%= @label[1] %>') > -1){
       var id = $(this).attr("id").substring(5);
-      $("#label" + id + "> span").text("unknow").removeClass("label-success");
+      $("#label" + id + "> span").text("unknown").removeClass("label-success");
       $("#button" + id).text("label").removeClass("btn-warning");
     }
   });

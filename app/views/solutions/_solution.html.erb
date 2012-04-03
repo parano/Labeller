@@ -4,12 +4,12 @@
     <% if @labeljob.classic? %>
       <td style='text-align: center' id="<%= solution.line_number %>" <% if @labeljob.labels.length < 25 %>class="btn-group"<% end %>>
         <% @labels.each do |w| %>
-          <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn-inverse btn btn-large #{'disabled' if solution.label == w }", :style => 'margin-top: 2px' %>
+          <%= link_to w, label_labeltask_solution_path(@labeltask ,solution, :label => w),:remote => true, :class => "#{w} btn btn-large #{'btn-success' if solution.label == w }", :style => 'margin-top: 2px' %>
         <% end %>
       </td>
     <% else %>
       <td style='text-align: center' >
-        <%= link_to (solution.has_solution? ? 'undo':'label'), word_label_labeltask_solution_path(@labeltask ,solution, :label => "unknow"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
+        <%= link_to (solution.has_solution? ? 'undo':'label'), word_label_labeltask_solution_path(@labeltask ,solution, :label => "unknown"), :remote => true, :id => "button" + solution.line_number.to_s, :class => "label_word btn btn-large #{(solution.has_solution? ? 'btn-warning':'')}" %>
       </td>
     <% end %>
   <% end %>
@@ -21,7 +21,7 @@
         </span>
       <% else %>
         <span class="label">
-          unknow
+          unknown
         </span>
       <% end %>
     </td>

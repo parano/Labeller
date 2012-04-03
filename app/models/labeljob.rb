@@ -73,13 +73,13 @@ class Labeljob < ActiveRecord::Base
 
   def label_all(word)
     self.labeltasks.each do |task|
-      task.solutions.where("label = 'unknow' AND rawdata LIKE '%#{word}%'").update_all "label = '#{word}'"
+      task.solutions.where("label = 'unknown' AND rawdata LIKE '%#{word}%'").update_all "label = '#{word}'"
     end
   end
 
   def delete_all(word)
     self.labeltasks.each do |task|
-      task.solutions.where(:label => word).update_all(:label => "unknow")
+      task.solutions.where(:label => word).update_all(:label => "unknown")
     end
   end
 

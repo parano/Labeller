@@ -27,7 +27,7 @@ class Labeltask < ActiveRecord::Base
     self.rawdata.split(/\n/).each_with_index do |line, line_number|
       self.solutions.create!( :line_number => line_number,
                              :rawdata => line,
-                             :label => "unknow")
+                             :label => "unknown")
     end
   end
 end

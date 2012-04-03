@@ -14,9 +14,9 @@
     <table class="table table-bordered table-striped">
       <thead>
         <tr>
-          <th class="span<%= @labeljob.word_label? ? 6:8%>">Content</th>
+          <th class="span<%= @labeljob.word_label? ? 5:8%>">Content</th>
           <% if @labeltask.editable?(current_user) %>
-            <th <%= "class='span2'" if @labeljob.word_label? %> style='text-align: center'>Actions</th>
+            <th <%= "class='span3'" if @labeljob.word_label? %> style='text-align: center'>Actions</th>
           <% end %>
           <% if @labeljob.word_label? or @labeljob.finished or !@labeltask.editable?(current_user) %>
             <th class='span2' style='text-align: center'>Solution</th>
@@ -32,8 +32,8 @@
     <%= will_paginate @solutions %>
   </div>
 
-  <div class="span3 offset1 well">
-    <%= render :partial => 'manage_table' %>
-  </div>
+</div>
+<div class="span3 offset1 well">
+  <%= render :partial => 'manage_table' %>
 </div>
 
