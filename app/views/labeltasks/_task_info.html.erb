@@ -13,7 +13,7 @@
 <p style="margin-top:20px">
   <b>Task Status : </b>
   <%= status_label @labeltask.status %>:
-  <span class="label label-success"><%= @labeltask.solutions.where("label!='unknow'").count %></span>/
+  <span class="label label-success"><%= @labeltask.solutions.where("label!='unknown'").count %></span>/
   <span class="label label-info"><%= @labeltask.solutions.count %></span>
 </p>
 

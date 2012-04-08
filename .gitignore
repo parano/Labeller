@@ -16,3 +16,4 @@
 
 # Ignore all upload files
 /public/uploads/*
+public/uploads/*

@@ -14,11 +14,11 @@ class SolutionsController < ApplicationController
     @labeltask = Labeltask.find(params[:labeltask_id])
     @labeljob = Labeljob.find(@labeltask.labeljob_id)
     @solution = @labeltask.solutions.find(params[:id])
-    
+
     if (!params[:label].nil? and !params[:label].blank?)
-      if params[:label] == "unknow" 
+      if params[:label] == "unknown"
         @label = ["delete", @solution.label]
-        @labeljob.delete_all(@solution.label) if @solution.label != "unknow"
+        @labeljob.delete_all(@solution.label) if @solution.label != "unknown"
       else
         @label = ["create", params[:label]]
         @labeljob.label_all(params[:label])

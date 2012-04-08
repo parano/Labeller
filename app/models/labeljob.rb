@@ -3,11 +3,10 @@ class Labeljob < ActiveRecord::Base
     :length => { :maximum => 30 }
   validates :desc, :presence => true,
     :length => { :maximum => 3000 }
-  validates :rawdata, :presence => true
+  #validates :rawdata, :presence => true
   label_regex = /([^\|]*\|)*/
   validates :labels,  :format => { :with => label_regex }
   attr_readonly :labels,:user_ids,:rawdata
-
 
   has_many :labeltasks, :dependent => :destroy
   belongs_to :user

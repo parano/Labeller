@@ -1,4 +1,4 @@
-var st = 'unknow'
+var st = 'unknown'
 
 if(!window.Parano){
   Parano = {};
@@ -20,7 +20,7 @@ Parano.Selector.getSelected = function(){
 Parano.Selector.select = function(){
   st = Parano.Selector.getSelected();
   if(st == ''){
-    st = 'unknow';
+    st = 'unknown';
   }
 }
 
@@ -34,12 +34,12 @@ $(document).ready(function(){
 
     if ($(this).text()!="undo" && $(id).text().indexOf(st) != -1){
       $(this).attr("href",s.substring(0,s.indexOf('='))+'='+st);
-      if (st != "unknow"){
+      if (st != "unknown"){
         $(this).text("label as :"+st);
         $(this).addClass("btn-info");
       }
     } else {
-      $(this).attr("href",s.substring(0,s.indexOf('='))+'=unknow');
+      $(this).attr("href",s.substring(0,s.indexOf('='))+'=unknown');
     }
   });
   $(".label_word").mouseout(function(){

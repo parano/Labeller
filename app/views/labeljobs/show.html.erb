@@ -32,7 +32,7 @@
         <% end %>
       </td>
       <td>
-        <% scount = task.solutions.where("label!='unknow'").count %>
+        <% scount = task.solutions.where("label!='unknown'").count %>
         <% acount = task.solutions.count  %>
         <span class="label label-success"><%= scount %></span>/
         <span class="label label-info"><%= acount %></span>

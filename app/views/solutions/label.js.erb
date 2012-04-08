@@ -1,4 +1,4 @@
-<% if @solution.label != 'unknown' %>
+<% if @solution.label != 'unknownn' %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").addClass("label-success")
 <% else %>
   $("#label<%= @solution.line_number %> > span").text("<%= @solution.label %>").removeClass("label-success")

@@ -54,13 +54,18 @@ class LabeljobsController < ApplicationController
     @labeljob = Labeljob.new(params[:labeljob])
     @labeljob.user_id = current_user.id if current_user != nil
 
-    respond_to do |format|
-      if @labeljob.save
-        format.html { redirect_to @labeljob, notice: 'Labeljob was successfully created.' }
-        format.json { render json: @labeljob, status: :created, location: @labeljob }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @labeljob.errors, status: :unprocessable_entity }
+    if params[:labeljob][:rawdata].blank?
+      @labeljob.errors[:rawdata] = 'rawdata can\'t be blank'
+      render action: "new"
+    else
+      respond_to do |format|
+        if @labeljob.save
+          format.html { redirect_to @labeljob, notice: 'Labeljob was successfully created.' }
+          format.json { render json: @labeljob, status: :created, location: @labeljob }
+        else
+          format.html { render action: "new" }
+          format.json { render json: @labeljob.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
