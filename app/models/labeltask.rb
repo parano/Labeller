@@ -22,12 +22,24 @@ class Labeltask < ActiveRecord::Base
     self.status == "submit"
   end
 
-  after_create :generate_solutions
-  def generate_solutions
-    self.rawdata.split(/\n/).each_with_index do |line, line_number|
-      self.solutions.create!( :line_number => line_number,
-                             :rawdata => line,
-                             :label => "unknown")
-    end
-  end
+  #def rawdata=(rawdata)
+  #  self.rawdata.each_with_index do |line, line_number|
+  #    self.solutions.create!( :line_number => line_number,
+  #                            :rawdata => line,
+  #                            :label => "unknown")
+  #  end
+  #end
+
+  #def rawdata
+  #  self.solutions.map { |x| x.rawdata }.join("\n")
+  #end
+
+  #after_create :generate_solutions
+  #def generate_solutions
+  #  self.rawdata.split(/\n/).each_with_index do |line, line_number|
+  #    self.solutions.create!( :line_number => line_number,
+  #                           :rawdata => line,
+  #                           :label => "unknown")
+  #  end
+  #end
 end

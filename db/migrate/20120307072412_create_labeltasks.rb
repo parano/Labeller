@@ -3,7 +3,7 @@ class CreateLabeltasks < ActiveRecord::Migration
     create_table :labeltasks do |t|
       t.string :status
       t.references :labeljob
-      t.text :rawdata, :limit => 4294967295
+      #t.text :rawdata, :limit => 4294967295
       t.integer :user_id
 
       t.timestamps
