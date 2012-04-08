@@ -19,9 +19,11 @@ class SolutionsController < ApplicationController
       if params[:label] == "unknown"
         @label = ["delete", @solution.label]
         @labeljob.delete_all(@solution.label) if @solution.label != "unknown"
+        @labeltask.inc_unlabel_count!
       else
         @label = ["create", params[:label]]
         @labeljob.label_all(params[:label])
+        @labeltask.inc_label_count!
       end
     end
 

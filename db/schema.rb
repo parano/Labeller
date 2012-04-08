@@ -40,10 +40,11 @@ ActiveRecord::Schema.define(:version => 20120312132140) do
   create_table "labeltasks", :force => true do |t|
     t.string   "status"
     t.integer  "labeljob_id"
-    t.text     "rawdata",     :limit => 2147483647
     t.integer  "user_id"
-    t.datetime "created_at",                        :null => false
-    t.datetime "updated_at",                        :null => false
+    t.integer  "label_count"
+    t.integer  "unlabel_count"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   add_index "labeltasks", ["labeljob_id", "user_id"], :name => "index_labeltasks_on_labeljob_id_and_user_id"

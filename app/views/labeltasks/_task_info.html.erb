@@ -22,6 +22,12 @@
   <%= @owner.email %>
 </p>
 
+<p>
+  <b>Action Records : </b>
+  <span class="label label-info"><%= @labeltask.label_count %>/<%= @labeltask.unlabel_count %></span>
+  (label/unlabel click times)
+</p>
+
 <div class="alert alert-info">
   <h4 class="alert-heading">Description:</h4>
   <p style="margin-top: 8px"><%= raw @labeljob.desc %></p>

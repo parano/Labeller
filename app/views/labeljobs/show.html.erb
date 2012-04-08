@@ -16,13 +16,15 @@
     <tr>
       <th class="span3">Labeller</th>
       <th class="span3">Status</th>
-      <th class="span3">Finished Items/All Items</th>
+      <th colspan="2">Finished Items/All Items/Action Records(label/undo) </th>
     </tr>
   </thead>
   <tbody>
     <% @labeltasks.each do |task| %>
       <tr>
-        <td><%= link_to user_email(task.user_id), labeltask_path(task) %></td>
+        <td>
+          <%= link_to user_email(task.user_id), labeltask_path(task) %>
+        </td>
         <td><%= status_label task.status %>
         <% if task.submit? %>
           <%= link_to 'Approve', approve_labeltask_path(task), :class =>'btn btn-success btn-mini' %>,
@@ -34,8 +36,11 @@
       <td>
         <% scount = task.solutions.where("label!='unknown'").count %>
         <% acount = task.solutions.count  %>
-        <span class="label label-success"><%= scount %></span>/
-        <span class="label label-info"><%= acount %></span>
+        <span class="label label-success"><%= scount %></span>
+        <span class="label"><%= acount %></span>
+        <span class="label label-info">
+          (<%= task.label_count %>:<%= task.unlabel_count %>)
+        </span>
       </td>
       <td class="span4">
         <div class="progress progress-success progress-striped" style="margin-bottom: 3px">

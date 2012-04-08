@@ -6,20 +6,34 @@ class Labeltask < ActiveRecord::Base
   #STATUS = %w[assigned progress submit reopen approve]
 
   def not_editable?
-    self.status == "submit" or self.status == "approve"
+    self.status == "submit" || self.status == "approve"
   end
 
   def editable?(user)
-    (self.status != "submit" and self.status != "approve") and
+    (self.status != "submit" && self.status != "approve") &&
       (self.user_id == user.id || !user.labeller?)
   end
 
   def submitable?
-    self.status != "approve" and self.status != "submit"
+    self.status != "approve" && self.status != "submit"
   end
 
   def submit?
     self.status == "submit"
+  end
+
+  before_save :default_values
+  def default_values
+    self.label_count = 0
+    self.unlabel_count = 0
+  end
+
+  def inc_label_count!
+    Labeltask.increment_counter(:label_count, self.id)
+  end
+
+  def inc_unlabel_count!
+    Labeltask.increment_counter(:unlabel_count, self.id)
   end
 
   #def rawdata=(rawdata)

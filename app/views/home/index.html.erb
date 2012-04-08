@@ -7,6 +7,6 @@
   </div>
 <% end %>
 
-<% if not @approved_tasks.nil? %>
+<% if not @approved_tasks.blank? %>
   <%= render :partial => 'approved_tasks' %>
 <% end %>

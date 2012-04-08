@@ -5,6 +5,8 @@ class CreateLabeltasks < ActiveRecord::Migration
       t.references :labeljob
       #t.text :rawdata, :limit => 4294967295
       t.integer :user_id
+      t.integer :label_count
+      t.integer :unlabel_count
 
       t.timestamps
     end

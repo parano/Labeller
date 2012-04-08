@@ -27,16 +27,16 @@ class Labeljob < ActiveRecord::Base
     not word_label?
   end
 
-  def label_numbers
-    self.labels.split('|').length
-  end
+  #def label_numbers
+  #  self.labels.split('|').length
+  #end
 
   def generate_tasks
     # first , delete all the old tasks
     self.labeltasks.each { |task| task.destroy } if self.labeltasks !=nil
     data = self.rawdata.read.split(/\n/).delete_if { |i| i == "" }
 
-    if self.word_label? and !self.filter.url.nil?
+    if self.word_label? && !self.filter.url.nil?
       #filtrate the rawdata
       self.filter.read.split(/\n/).delete_if { |i| i == "" }.each do |filter|
         data.delete_if { |item| item.include?(filter) }
@@ -58,7 +58,7 @@ class Labeljob < ActiveRecord::Base
       i += 1
     end
 
-    while i < labeller_numbers and i < length
+    while i < labeller_numbers && i < length
       create_task(i, start, tasksize, data) 
       start = start + tasksize
       i += 1
@@ -71,7 +71,7 @@ class Labeljob < ActiveRecord::Base
     labeltask = self.labeltasks.where(:user_id => self.users[i].id).first
 
     data[start..(start + tasksize - 1)].each_with_index do |line, line_number|
-      labeltask.solutions.create!( :line_number => line_number,
+      labeltask.solutions.create!(:line_number => line_number,
                                   :rawdata => line,
                                   :label => "unknown")
     end   
