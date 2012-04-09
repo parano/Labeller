@@ -15,5 +15,8 @@
 /tmp
 
 # Ignore all upload files
-/public/uploads/*
 public/uploads/*
+
+pubilc/assets/
+config/database.yml
+
