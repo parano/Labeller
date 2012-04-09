@@ -29,9 +29,12 @@
         </td>
         <td><%= status_label task.status %>
         <% if task.submit? %>
-          <%= link_to 'Approve', approve_labeltask_path(task), :class =>'btn btn-success btn-mini' %>,
+          <%= link_to 'Approve', approve_labeltask_path(task), :class =>'btn btn-success btn-mini' %>
           <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
-        <% elsif task.not_editable? %>
+          <span class="label">
+            Submit at <%= task.submit_time.in_time_zone('Beijing').to_formatted_s(:long) %>
+          </span>
+        <% elsif task.not_editable? && !@labeljob.finished? %>
           <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
         <% end %>
       </td>

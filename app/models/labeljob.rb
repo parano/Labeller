@@ -27,9 +27,21 @@ class Labeljob < ActiveRecord::Base
     not word_label?
   end
 
+  def finished?
+    self.finished 
+  end
+
   #def label_numbers
   #  self.labels.split('|').length
   #end
+  
+  def finish!
+    self.update_attributes(:finished => true)
+    self.labeltasks.each do |task|
+      task.approve!
+    end
+    self.save!
+  end
 
   def generate_tasks
     # first , delete all the old tasks

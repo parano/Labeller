@@ -101,7 +101,7 @@ class LabeljobsController < ApplicationController
   # GET /labeljobs/1/finish
   def finish
     @labeljob = Labeljob.find(params[:id])
-    @labeljob.update_attributes(:finished => true)
+    @labeljob.finish!
 
     if @labeljob.save
       redirect_to @labeljob, notice: 'Label job was successfully finished'

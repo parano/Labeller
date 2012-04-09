@@ -30,7 +30,8 @@ class LabeltasksController < ApplicationController
     @owner = User.find(@labeltask.user_id)
     @labels = @labeljob.labels.split('|')
 
-    @labeltask.update_attributes(:status => "submit")
+    #@labeltask.update_attributes(:status => "submit")
+    @labeltask.submit!
 
     if @labeltask.save
       redirect_to @labeltask, notice: 'Label task was submitted'

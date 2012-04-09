@@ -54,9 +54,9 @@
       <b>,All:</b>
       <span class="label label-info"><%= @labeltasks.count %></span>
 
-      <% if !@labeljob.finished == true and @approve_count == @labeltasks.count %>
+      <% if !@labeljob.finished == true %>
         <div class="well alert alert-success" style="margin-top: 10px">
-          All task have been approved, You can <%= link_to 'Finish', finish_labeljob_path(@labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure the job is currently finished? You can reopen it in the job info page after click'%> this job now
+          You can <%= link_to 'Finish', finish_labeljob_path(@labeljob), :class => 'btn btn-mini btn-success'  , :confirm => 'Are you sure the job is currently finished? You can reopen it in the job info page after click'%> this job now
         </div>
       <% elsif @labeljob.finished == true %>
         <div class="well alert alert-warning" style="margin-top: 10px">

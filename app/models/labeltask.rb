@@ -4,6 +4,12 @@ class Labeltask < ActiveRecord::Base
   has_many    :solutions, :dependent => :destroy
 
   #STATUS = %w[assigned progress submit reopen approve]
+  
+  def submit!
+    self.update_attributes(:status => "submit")
+    self.submit_time = Time.now
+    self.save!
+  end
 
   def not_editable?
     self.status == "submit" || self.status == "approve"
@@ -20,6 +26,11 @@ class Labeltask < ActiveRecord::Base
 
   def submit?
     self.status == "submit"
+  end
+
+  def approve!
+    self.update_attributes(:status => "approve")
+    self.save!
   end
 
   before_save :default_values
