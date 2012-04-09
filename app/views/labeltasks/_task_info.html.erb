@@ -25,7 +25,9 @@
 <p>
   <b>Action Records : </b>
   <span class="label label-info"><%= @labeltask.label_count %>/<%= @labeltask.unlabel_count %></span>
-  (label/unlabel click times)
+  <% if @labeljob.word_label? %>
+    (label/unlabel click times)
+  <% end %>
 </p>
 
 <div class="alert alert-info">

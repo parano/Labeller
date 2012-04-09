@@ -1,7 +1,6 @@
 <% if @labeljob.errors.any? %>
   <div id="error_explanation">
     <h2><%= pluralize(@labeljob.errors.count, "error") %> prohibited this labeljob from being saved:</h2>
-
     <ul>
       <% @labeljob.errors.full_messages.each do |msg| %>
         <li><%= msg %></li>
@@ -36,7 +35,6 @@
     </div>
 
     <% if params[:action] == "new" or params[:action] == "create"  %>
-
       <div class="control-group">
         <div class="controls">
           <p class="well">class label: 输入用来标注的选项，形如“A|B|C”、“好|不好”</p>
@@ -54,8 +52,6 @@
         <div class="controls">
           <%= f.text_field :labels, :class => 'text_field' %>
         </div>
-
-
       </div>
 
       <div class="control-group">

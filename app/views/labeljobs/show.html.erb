@@ -16,7 +16,9 @@
     <tr>
       <th class="span3">Labeller</th>
       <th class="span3">Status</th>
-      <th colspan="2">Finished Items/All Items/Action Records(label/undo) </th>
+      <th colspan="2">Finished Items/All Items
+        <% if @labeljob.word_label? %>/Action Records(label/undo)<% end %>
+      </th>
     </tr>
   </thead>
   <tbody>
@@ -38,9 +40,11 @@
         <% acount = task.solutions.count  %>
         <span class="label label-success"><%= scount %></span>
         <span class="label"><%= acount %></span>
-        <span class="label label-info">
-          (<%= task.label_count %>:<%= task.unlabel_count %>)
-        </span>
+        <% if @labeljob.word_label? %>
+          <span class="label label-info">
+            (<%= task.label_count %>:<%= task.unlabel_count %>)
+          </span>
+        <% end %>
       </td>
       <td class="span4">
         <div class="progress progress-success progress-striped" style="margin-bottom: 3px">
