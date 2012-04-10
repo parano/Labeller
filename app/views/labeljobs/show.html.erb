@@ -31,30 +31,32 @@
         <% if task.submit? %>
           <%= link_to 'Approve', approve_labeltask_path(task), :class =>'btn btn-success btn-mini' %>
           <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
-          <span class="label">
-            Submit at <%= task.submit_time.in_time_zone('Beijing').to_formatted_s(:long) %>
-          </span>
-        <% elsif task.not_editable? && !@labeljob.finished? %>
-          <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
-        <% end %>
-      </td>
-      <td>
-        <% scount = task.solutions.where("label!='unknown'").count %>
-        <% acount = task.solutions.count  %>
-        <span class="label label-success"><%= scount %></span>
-        <span class="label"><%= acount %></span>
-        <% if @labeljob.word_label? %>
-          <span class="label label-info">
-            (<%= task.label_count %>:<%= task.unlabel_count %>)
-          </span>
-        <% end %>
-      </td>
-      <td class="span4">
-        <div class="progress progress-success progress-striped" style="margin-bottom: 3px">
-          <div class="bar" style="width: <%= number_to_percentage(scount.to_f/acount*100) %>"><p style="color: DarkMagenta"><%= number_to_percentage(scount.to_f/acount*100, :precision => 0) %></p></div>
-        </div>
-      </td>
-    </tr>
-  <% end %>
+          <% if !task.submit_time.blank? %>
+            <span class="label">
+              Submit at <%= task.submit_time.in_time_zone('Beijing').to_formatted_s(:long) %>
+            </span>
+          <% end %>
+      <% elsif task.not_editable? && !@labeljob.finished? %>
+        <%= link_to 'Reopen', reopen_labeltask_path(task), :class => 'btn btn-warning btn-mini' %>
+      <% end %>
+    </td>
+    <td>
+      <% scount = task.solutions.where("label!='unknown'").count %>
+      <% acount = task.solutions.count  %>
+      <span class="label label-success"><%= scount %></span>
+      <span class="label"><%= acount %></span>
+      <% if @labeljob.word_label? %>
+        <span class="label label-info">
+          (<%= task.label_count %>:<%= task.unlabel_count %>)
+        </span>
+      <% end %>
+    </td>
+    <td class="span4">
+      <div class="progress progress-success progress-striped" style="margin-bottom: 3px">
+        <div class="bar" style="width: <%= number_to_percentage(scount.to_f/acount*100) %>"><p style="color: DarkMagenta"><%= number_to_percentage(scount.to_f/acount*100, :precision => 0) %></p></div>
+      </div>
+    </td>
+  </tr>
+<% end %>
 </tbody>
 </table>

@@ -37,6 +37,7 @@ class Labeltask < ActiveRecord::Base
   def default_values
     self.label_count = 0
     self.unlabel_count = 0
+    self.submit_time = Time.now
   end
 
   def inc_label_count!
