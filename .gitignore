@@ -17,6 +17,6 @@
 # Ignore all upload files
 public/uploads/*
 
-pubilc/assets/
+pubilc/assets/*
 config/database.yml
 
