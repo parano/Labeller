@@ -31,10 +31,34 @@ class Labeljob < ActiveRecord::Base
     self.finished 
   end
 
-  #def label_numbers
-  #  self.labels.split('|').length
-  #end
-  
+  def exportation_array
+    earray = []
+    if self.word_label?
+      self.labeltasks.each do |tasks|
+        earray |= tasks.solutions.where("label != 'unknown'").select(:label).uniq.all.map { |t| t.label }
+      end
+      #earray.uniq
+    else
+      self.labeltasks.each do |tasks|
+        earray += tasks.solutions.where("label != 'unknown'").select('label, rawdata').all.map do |solution|
+          solution.rawdata + "\t" + solution.label   
+        end
+      end
+    end
+    earray.sort
+  end
+
+  def get_exportation
+    if !self.exportation.blank? 
+      return self.exportation
+    else
+      exportation = self.exportation_array.join("\n")
+      self.update_attributes(:exportation => exportation)  
+      self.create_exporting_file
+    end
+  end
+    
+
   def finish!
     self.update_attributes(:finished => true)
     self.labeltasks.each do |task|
@@ -100,5 +124,4 @@ class Labeljob < ActiveRecord::Base
       task.solutions.where(:label => word).update_all(:label => "unknown")
     end
   end
-
 end

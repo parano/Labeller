@@ -21,8 +21,10 @@ Labeller::Application.routes.draw do
   resources :labeljobs do
     resources :labeltasks
     member do
+      get :export
       get :finish
       get :reopen
+      get :download_export
     end
   end
 

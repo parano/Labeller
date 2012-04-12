@@ -122,4 +122,15 @@ class LabeljobsController < ApplicationController
     end
   end
 
+  # GET /labeljobs/1/export
+  def export
+    @labeljob = Labeljob.find(params[:id])
+    @exportation = @labeljob.get_exportation
+  end
+
+  def download_export
+    @labeljob = Labeljob.find(params[:id])
+    send_data @labeljob.exportation, :filename => @labeljob.name + '.txt'
+  end
+
 end

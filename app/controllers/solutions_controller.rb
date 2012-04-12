@@ -21,8 +21,9 @@ class SolutionsController < ApplicationController
         @labeljob.delete_all(@solution.label) if @solution.label != "unknown"
         @labeltask.inc_unlabel_count!
       else
-        @label = ["create", params[:label]]
-        @labeljob.label_all(params[:label])
+        label = params[:label].strip
+        @label = ["create", label]
+        @labeljob.label_all(label)
         @labeltask.inc_label_count!
       end
     end

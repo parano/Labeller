@@ -63,6 +63,12 @@
           This job is already finished,  You can <%= link_to 'REOPEN', reopen_labeljob_path(@labeljob), :class => 'btn btn-mini btn-warning'  , :confirm => 'Are you sure to reopen this job?'%> this job now
         </div>
       <% end %>
+      <% if !@labeljob.exportation.blank? %>
+        <div class="well alert alert-info" style="margin-top: 10px">
+          The Exportation file had been generated,  You can <%= link_to 'Download', download_export_labeljob_path(@labeljob), :class => 'btn btn-mini btn-info' %> it here
+        </div>
+      <% end %>
+
     </p>
 
   </div>
