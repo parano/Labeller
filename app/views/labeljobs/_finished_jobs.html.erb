@@ -15,8 +15,8 @@
         <td><%= labeljob.created_at %></td>
         <td><%= labeljob.labeltasks.count %></td>
         <td>
+          <%= link_to 'Reveiw', review_labeljob_path(labeljob), :class => 'btn btn-warning' %>
           <%= link_to 'Delete', labeljob_path(labeljob), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
-          <%= link_to 'Export', export_labeljob_path(labeljob), :class => 'btn btn-warning' %>
         </td>
       </tr>
     <% end %>

@@ -1,13 +1,53 @@
-<%= simple_form_for @labeljob do |f| %>
-  <fieldset>
-    <div class="control-group">
-      <div class="controls" >
-        <%= f.input :exportation, :input_html => { :class => 'span10' } %>
+<p class="alert alert-success">
+  <% if @conflicts.blank? %>
+    There are no conflicts in job : <b><%= @labeljob.name %><b>, 
+      <% else %>
+        There are <b><%= @conflicts.count %></b> conflicts in job : <b><%= @labeljob.name %></b>, the other
+      <% end %>
+
+      <b><%= @export_number %></b> keywords will be export to Knowl-base as Channel <b><%= params[:chnl] %></b> and kw_type <b><%= params[:kw_type] %></b>
+    </p>
+
+    <div>
+      <% if @export_number != 0 %>
+        <%= link_to "Confirm conflicts and export", export_to_knowl_base_labeljob_path(@labeljob), :method => 'get', :class => 'btn btn-success' %>
+      <% end %>
+      <%= link_to 'Cancel', @labeljob, :class => 'btn' %>
+    </div>
+
+    <br />
+
+    <div class="row">
+      <div class="span6">
+        <% if !@conflicts.blank? %>
+          <h2><b><%= @conflicts.count %> </b>Conflicting words : </h2>
+          <div class="alert alert-warning">
+            <% if !@conflicts.blank? %>
+              <% @conflicts.each do |conflict| %>
+                <p><%= conflict %></p>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+
+      <div class="span6">
+        <% if @export_number != 0 %>
+          <h2><%= @export_number %> words to export: </h2>
+          <h4>
+            (if there is any errors, change it <%= link_to 'here', review_labeljob_path(@labeljob)  %>)
+          </h4>
+
+          <div class="alert alert-info">
+            <br />
+            <% if !@unconflict.blank? %>
+              <% @unconflict.each do |word| %>
+                <p><%= word %></p>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
       </div>
     </div>
 
-    <div class="form-actions">
-      <%= f.button :submit %>
-    </div>
-  </fieldset>
-<% end  %>
+

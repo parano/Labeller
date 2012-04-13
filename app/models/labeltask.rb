@@ -2,7 +2,6 @@ class Labeltask < ActiveRecord::Base
   belongs_to  :labeljob
   belongs_to  :user
   has_many    :solutions, :dependent => :destroy
-
   #STATUS = %w[assigned progress submit reopen approve]
   
   def submit!
@@ -47,25 +46,4 @@ class Labeltask < ActiveRecord::Base
   def inc_unlabel_count!
     Labeltask.increment_counter(:unlabel_count, self.id)
   end
-
-  #def rawdata=(rawdata)
-  #  self.rawdata.each_with_index do |line, line_number|
-  #    self.solutions.create!( :line_number => line_number,
-  #                            :rawdata => line,
-  #                            :label => "unknown")
-  #  end
-  #end
-
-  #def rawdata
-  #  self.solutions.map { |x| x.rawdata }.join("\n")
-  #end
-
-  #after_create :generate_solutions
-  #def generate_solutions
-  #  self.rawdata.split(/\n/).each_with_index do |line, line_number|
-  #    self.solutions.create!( :line_number => line_number,
-  #                           :rawdata => line,
-  #                           :label => "unknown")
-  #  end
-  #end
 end

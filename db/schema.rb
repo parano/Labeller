@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120412084613) do
+ActiveRecord::Schema.define(:version => 20120413093100) do
 
   create_table "labeljobs", :force => true do |t|
     t.string   "name"
@@ -25,6 +25,9 @@ ActiveRecord::Schema.define(:version => 20120412084613) do
     t.string   "rawdata"
     t.string   "filter"
     t.text     "exportation"
+    t.text     "conflicts"
+    t.string   "chnl_name"
+    t.string   "kw_type"
   end
 
   add_index "labeljobs", ["user_id", "created_at"], :name => "index_labeljobs_on_user_id_and_created_at"

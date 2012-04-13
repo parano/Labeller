@@ -1,20 +1,17 @@
 class Labeljob < ActiveRecord::Base
+  include KnowlBaseUtils
+
   validates :name, :presence => true,
     :length => { :maximum => 30 }
   validates :desc, :presence => true,
     :length => { :maximum => 3000 }
-  #validates :rawdata, :presence => true
   label_regex = /([^\|]*\|)*/
   validates :labels,  :format => { :with => label_regex }
   attr_readonly :labels,:user_ids,:rawdata
 
   has_many :labeltasks, :dependent => :destroy
   belongs_to :user
-  # has_many :joblabellers, :dependent => :destroy
-  # has_many :labellers, :through => :joblabellers,
-  #                      :source => :labeller
   has_and_belongs_to_many :users
-  # after_save :generate_tasks
   after_create :generate_tasks
   mount_uploader :rawdata, RawdataUploader
   mount_uploader :filter, FilterUploader
@@ -35,13 +32,13 @@ class Labeljob < ActiveRecord::Base
     earray = []
     if self.word_label?
       self.labeltasks.each do |tasks|
-        earray |= tasks.solutions.where("label != 'unknown'").select(:label).uniq.all.map { |t| t.label }
+        earray |= tasks.solutions.where("label != 'unknown'").select(:label).uniq.all.map { |t| t.label.strip }
       end
       #earray.uniq
     else
       self.labeltasks.each do |tasks|
         earray += tasks.solutions.where("label != 'unknown'").select('label, rawdata').all.map do |solution|
-          solution.rawdata + "\t" + solution.label   
+          solution.rawdata.strip + "\t" + solution.label   
         end
       end
     end
@@ -54,11 +51,17 @@ class Labeljob < ActiveRecord::Base
     else
       exportation = self.exportation_array.join("\n")
       self.update_attributes(:exportation => exportation)  
-      self.create_exporting_file
     end
   end
-    
 
+  def delete_exportation
+    self.update_attributes(:exportation => '')
+  end
+
+  def get_unconflict_words
+    self.exportation.split("\n").map{|x| x.chomp} - self.conflicts.split("\n").map{|x| x.chomp}
+  end
+    
   def finish!
     self.update_attributes(:finished => true)
     self.labeltasks.each do |task|

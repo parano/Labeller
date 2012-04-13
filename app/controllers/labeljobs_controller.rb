@@ -102,6 +102,7 @@ class LabeljobsController < ApplicationController
   def finish
     @labeljob = Labeljob.find(params[:id])
     @labeljob.finish!
+    @labeljob.get_exportation
 
     if @labeljob.save
       redirect_to @labeljob, notice: 'Label job was successfully finished'
@@ -114,16 +115,16 @@ class LabeljobsController < ApplicationController
   def reopen
     @labeljob = Labeljob.find(params[:id])
     @labeljob.update_attributes(:finished => false)
+    @labeljob.delete_exportation
 
     if @labeljob.save
-      redirect_to @labeljob, notice: 'Label job was successfully UNDO finished'
+      redirect_to @labeljob, notice: 'Labeljob was successfully UNDO finished'
     else
       render action: "show", notice: 'UNDO Denied'
     end
   end
 
-  # GET /labeljobs/1/export
-  def export
+  def review
     @labeljob = Labeljob.find(params[:id])
     @exportation = @labeljob.get_exportation
   end
@@ -133,4 +134,29 @@ class LabeljobsController < ApplicationController
     send_data @labeljob.exportation, :filename => @labeljob.name + '.txt'
   end
 
+  def choose
+    @labeljob = Labeljob.find(params[:id])
+    @channels = @labeljob.get_channels.map{|x| x="<option>" + x + "</option>"}.join
+    @kw_types = @labeljob.get_kw_types.keys.map{|x| x="<option>" + x + "</option>"}.join
+  end
+
+  def export
+    @labeljob = Labeljob.find(params[:id])
+    if !params[:chnl].blank? and !params[:kw_type].blank?
+      @conflicts = @labeljob.get_conflicts(params[:chnl], params[:kw_type])
+      @unconflict = @labeljob.get_unconflict_words
+      @export_number = @unconflict.count
+    else
+      redirect_to :back, :notice => 'Choose chnl and tw_type !!!'
+    end
+  end
+
+  def export_to_knowl_base
+    @labeljob = Labeljob.find(params[:id])
+    if @labeljob.export_to_knowlbase
+      redirect_to @labeljob, notice: 'Labeljob was successfully exported to knowl-base!'
+    else
+      redirect_to :back, :notice => 'export fails'
+    end
+  end
 end

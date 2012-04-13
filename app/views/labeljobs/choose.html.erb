@@ -1,0 +1,10 @@
+<div>
+  <h4>选择 <%= @labeljob.name %> 所属的channel和type</h4>
+  <%= form_tag export_labeljob_path(@labeljob), :method => 'get' do %>
+    <%= label_tag 'Channels' %>
+    <%= select_tag 'chnl', @channels.html_safe, :prompt => (!params[:chnl].blank? ? params[:chnl] : 'Select a Channel to export') %>
+    <%= label_tag 'kw Tpyes' %>
+    <%= select_tag 'kw_type', @kw_types.html_safe, :prompt => (!params[:kw_type].blank? ? params[:kw_type] : "Select a kw_type to export")%>
+    <%= submit_tag("Next Step", :class => 'btn btn-primary') %>
+  <% end %>
+</div>

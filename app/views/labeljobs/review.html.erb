@@ -1,0 +1,13 @@
+<%= simple_form_for @labeljob do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <div class="controls" >
+        <%= f.input :exportation, :input_html => { :class => 'span12' } %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Review Finished", :class => 'btn btn-primary' %>
+    </div>
+  </fieldset>
+<% end  %>
