@@ -1,0 +1,5 @@
+<%= form_tag '/data_import', :method => 'post' do %>
+  <%= text_area_tag 'data', nil %>
+  <br />
+  <%= submit_tag("Import", :class => 'btn btn-success') %>
+<% end %>

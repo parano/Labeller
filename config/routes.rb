@@ -1,4 +1,9 @@
 Labeller::Application.routes.draw do
+  match 'import'      => "knowlege_base#import"
+  match 'review'      => "knowlege_base#review"
+  match 'update'      => "knowlege_base#update"
+  match 'data_import' => "knowlege_base#data_import"
+
   devise_for :users, :controllers => {:registrations => "registrations"}
 
   root :to => "home#index"

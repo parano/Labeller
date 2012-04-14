@@ -11,7 +11,7 @@
 development:
   adapter: mysql2
   encoding: utf8
-  reconnect: false
+  #reconnect: false
   database: labeller
   pool: 5
   username: root
@@ -41,4 +41,34 @@ production:
   password:
   socket: /var/run/mysqld/mysqld.sock
 
+knowlege_base:
+  development:
+    adapter: mysql2
+    encoding: utf8
+    #reconnect: false
+    database: test
+    pool: 5
+    username: root
+    password:
+    socket: /var/run/mysqld/mysqld.sock
+
+  production:
+    adapter: mysql2
+    encoding: utf8
+    reconnect: false
+    database: test
+    pool: 5
+    username: root
+    password:
+    socket: /var/run/mysqld/mysqld.sock
+
+  test:
+    adapter: mysql2
+    encoding: utf8
+    reconnect: false
+    database: test
+    pool: 5
+    username: root
+    password:
+    socket: /var/run/mysqld/mysqld.sock
 

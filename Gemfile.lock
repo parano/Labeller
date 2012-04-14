@@ -45,6 +45,7 @@ GEM
     coffee-script-source (1.2.0)
     commonjs (0.2.0)
       therubyracer (~> 0.9.9)
+    connection_ninja (0.4.1)
     devise (2.0.4)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.0.3)
@@ -141,6 +142,7 @@ DEPENDENCIES
   cancan
   carrierwave
   coffee-rails (~> 3.2.1)
+  connection_ninja
   devise
   jquery-rails
   mysql2

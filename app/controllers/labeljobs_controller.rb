@@ -102,7 +102,7 @@ class LabeljobsController < ApplicationController
   def finish
     @labeljob = Labeljob.find(params[:id])
     @labeljob.finish!
-    @labeljob.get_exportation
+    #@labeljob.get_exportation
 
     if @labeljob.save
       redirect_to @labeljob, notice: 'Label job was successfully finished'

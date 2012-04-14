@@ -1,9 +1,11 @@
 # coding: utf-8
+# = =
 module KnowlBaseUtils
   def db_client
     return Mysql2::Client.new(:host => Settings.knowl_base.host,
-                                :username => Settings.knowl_base.username,
-                                :database => Settings.database)
+                              :username => Settings.knowl_base.username,
+                              :password => Settings.knowl_base.password,
+                              :database => Settings.database)
   end
 
   def get_channels
@@ -28,25 +30,29 @@ module KnowlBaseUtils
     words = []
     client = db_client
     chnl_id = get_chnl_id_by_cn_name(client, chnl_cn_name)
-    #chnl_id = client.query("SELECT id FROM t_channel WHERE cn_name='#{chnl_cn_name}'").first["id"]
     client.query("SELECT TEXT FROM t_keywords AS tk JOIN t_kw_chnl AS wkc ON tk.id = wkc.kid WHERE chnl_id = #{chnl_id} AND kw_type = '#{kw_type}'").each { |word| words << word["TEXT"].chomp.strip }
     words
   end
 
   def get_conflicts(chnl_cn_name, kw_type)
     conflicts = self.exportation.split("\n").map{|x| x.chomp.strip} & get_words(chnl_cn_name, kw_type) 
-    self.update_attributes( :conflicts => conflicts.join("\n"))
+    self.update_attributes( :conflicts => conflicts.join("\n"),
+                            :chnl_name => chnl_cn_name,
+                            :kw_type => kw_type)
     conflicts
   end
 
-  def export_to_knowlbase(chnl_cn_name, kw_type)
+  def export_to_knowlbase
     client = db_client
-    chnl_id = get_chnl_id_by_cn_name(client, chnl_cn_name)
-
+    chnl_id = get_chnl_id_by_cn_name(client, self.chnl_name)
+    export = self.get_unconflict_words
+    export.each do |word|
+      insert_word_to_knowlbase(client, word, chnl_id, self.kw_type)
+    end
+    return true
   end
 
-  def insert_word_to_knowlbase(word, chnl_id, kw_type)
-    client = db_client
+  def insert_word_to_knowlbase(client, word, chnl_id, kw_type)
     client.query("INSERT INTO t_keywords (text, kw_type) VALUES ('#{word}','#{kw_type}')")
     kid = client.last_id
     client.query("INSERT INTO t_kw_chnl (kid, chnl_id) VALUES (#{kid}, '#{chnl_id}')")

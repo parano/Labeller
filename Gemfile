@@ -34,6 +34,11 @@ gem "carrierwave"
 # YAML
 gem 'settingslogic'
 
+# multiple database
+gem 'connection_ninja'
+
+# gem 'activerecord-mysql-adapter'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
