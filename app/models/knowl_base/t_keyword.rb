@@ -59,9 +59,7 @@ class TKeyword < KnowlegeBase
   end
 
   def self.get_infos(formatted_keyword)
-    info = formatted_keyword.split("\t")
-    info[3] = '' if info[3] == 'null'
-    info
+    info = formatted_keyword.split("\s")
   end
 
   def self.get_keyword_id_by_string(formatted_keyword)
@@ -71,13 +69,31 @@ class TKeyword < KnowlegeBase
 
   # return true if the two relation formulas are the same to each other
   def compare_rel_kw_list(old_relation)
-
+    old_relation == self.relation_words 
   end
 
   def build_kw_relation(relation)
-
+    relation.split("|").each do |info|
+      i = info.split('$')
+      type = i[0]
+      i[1].split('#').each do |word|
+        text = word.split('^')[0]
+        kw_type = word.split('^')[1]
+        id = TKeyword.where(:text => text, :kw_type => kw_type).first.id
+        self.t_kw_relations.new(:kw2_id => id, :rel_type => type)
+      end
+    end
+    self.save
   end
 
+  def self.delete_kw_relation(keyword_id)
+    keyword = TKeyword.find(keyword_id)
+    if !keyword.t_kw_relations.empty?
+      TKwRelation.where(:kw1_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
+      TKwRelation.where(:kw2_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
+    end
+  end
+  
   def self.get_channel_ids(info)
     info[3].split('|').map{ |en_name| TChannel.where(:en_name => en_name).first.id }.sort
   end
@@ -85,20 +101,26 @@ class TKeyword < KnowlegeBase
   def self.update(kid, formatted_keyword)
     return delete(kid) if formatted_keyword.empty?
 
-    # update keyword
     keyword = TKeyword.find(kid)
+    return true if keyword.get_string == formatted_keyword
+
+    # update keyword
     info = TKeyword.get_infos(formatted_keyword)
     keyword.update_attributes(:text    => info[0]) if keyword.text    != info[0]
     keyword.update_attributes(:kw_type => info[1]) if keyword.kw_type != info[1]
-    keyword.update_attributes(:synonym => info[2]) if keyword.synonym != info[2] || keyword.synonym.blank?
+    if info[2] == 'null'
+      keyword.update_attributes(:synonym => nil) 
+    else
+      keyword.update_attributes(:synonym => info[2]) if keyword.synonym != info[2] 
+    end
 
     # update channels
     chnl_ids = TKeyword.get_channel_ids(info) 
     keyword.t_channel_ids = chnl_ids if keyword.t_channel_ids.sort != chnl_ids
 
     # update relation
-    if keyword.compare_rel_kw_list(info[4])
-      keyword.delete_kw_relation
+    if !keyword.compare_rel_kw_list(info[4])
+      TKeyword.delete_kw_relation(keyword.id)
       keyword.build_kw_relation(info[4])
     end
   end
@@ -109,7 +131,7 @@ class TKeyword < KnowlegeBase
     TKwChnl.where(:kid => keyword_id).each { |tkwchnl| tkwchnl.destroy }
 
     # t_kw_relation
-    delete_kw_relation(keyword_id)
+    TKeyword.delete_kw_relation(keyword_id)
 
     # t_keyword
     TKeyword.find(keyword_id).destroy
@@ -119,21 +141,16 @@ class TKeyword < KnowlegeBase
     delete(self.id)
   end
 
-  def delete_kw_relation(keyword_id)
-    TKwRelation.where(:kw1_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
-    TKwRelation.where(:kw2_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
-  end
-
   def self.import(formatted_keyword)
     keyword = TKeyword.get_keyword_id_by_string(formatted_keyword)
     if !keyword.blank?
       TKeyword.update(keyword.id, formatted_keyword)
     else
-      TKeyword.insert(formatted_keyword)
+      TKeyword.import_new_keyword(formatted_keyword)
     end
   end
 
-  def self.insert(formatted_keyword)
+  def self.import_new_keyword(formatted_keyword)
     info = TKeyword.get_infos(formatted_keyword)
 
     # keyword
@@ -141,11 +158,11 @@ class TKeyword < KnowlegeBase
                            :kw_type => info[1], 
                            :synonym => info[2])
     keyword.save
-    
+
     # channels
     keyword.t_channel_ids = TKeyword.get_channel_ids(info)
 
     # relation
-    keyword.build_kw_relation(keyword, info[4])
+    keyword.build_kw_relation(info[4])
   end
 end

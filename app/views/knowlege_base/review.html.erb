@@ -3,7 +3,7 @@
     <%= form_tag '/review', :method => 'get' do %>
       <span class="span3">
         <%= label_tag 'Channels' %>
-        <%= select_tag 'chnl', options_from_collection_for_select(@channels, 'id', 'en_name', params[:chnl]), :include_blank => true %>
+        <%= select_tag 'chnl', options_from_collection_for_select(@channels, 'id', 'cn_name', params[:chnl]), :include_blank => true %>
       </span>
       <span class="span3">
         <%= label_tag 'kw Types' %>

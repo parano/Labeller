@@ -9,9 +9,10 @@ module KnowlBaseUtils
   end
 
   def get_channels
-    channels = []
-    db_client.query("SELECT cn_name FROM t_channel").each{|x| channels << x['cn_name']}
-    channels
+    #channels = []
+    #db_client.query("SELECT cn_name FROM t_channel").each{|x| channels << x['cn_name']}
+    #channels
+    TChannel.select(:cn_name).map {|r| r.cn_name}
   end
 
   def get_kw_types
