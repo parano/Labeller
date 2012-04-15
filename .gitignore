@@ -20,4 +20,4 @@ public/uploads/*
 pubilc/assets/*
 public/assets/
 config/database.yml
-
+config/application.yml
