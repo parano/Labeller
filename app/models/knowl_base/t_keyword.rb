@@ -73,6 +73,8 @@ class TKeyword < KnowlegeBase
   end
 
   def build_kw_relation(relation)
+    return true if relation.blank?
+
     relation.split("|").each do |info|
       i = info.split('$')
       type = i[0]
@@ -88,7 +90,7 @@ class TKeyword < KnowlegeBase
 
   def self.delete_kw_relation(keyword_id)
     keyword = TKeyword.find(keyword_id)
-    if !keyword.t_kw_relations.empty?
+    if keyword && !keyword.t_kw_relations.empty?
       TKwRelation.where(:kw1_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
       TKwRelation.where(:kw2_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
     end

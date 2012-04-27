@@ -6,6 +6,7 @@ module KnowlBaseUtils
                               :username => Settings.knowl_base.username,
                               :password => Settings.knowl_base.password,
                               :database => Settings.database)
+    #return Mysql2::Client.new(ActiveRecord::Base.configurations["knowlege_base"][::Rails.env])
   end
 
   def get_channels

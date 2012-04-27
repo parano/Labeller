@@ -1,5 +1,13 @@
 <%= form_tag '/data_import', :method => 'post' do %>
-  <%= text_area_tag 'data', nil %>
+  <div class="input">
+    <%= text_area_tag 'data', nil, :class => 'span8' ,:style => "height: 500px", :placeholder => '…………' %>
+  </div>
   <br />
-  <%= submit_tag("Import", :class => 'btn btn-success') %>
-<% end %>
+
+  <div class="well">
+    <%= submit_tag("Import", :class => 'btn btn-success') %>
+  <% end %>
+  <%= link_to 'Back', root_url, :class => 'btn'  %>
+</div>
+
+
