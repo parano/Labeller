@@ -9,16 +9,20 @@ class KnowlegeBaseController < ApplicationController
   end
 
   def update
-    @result = TKeyword.update(params[:id], params[:formatted_string])
-    if @result == true 
+    notice = TKeyword.update(params[:id], params[:formatted_string])
+    if notice.blank?
       redirect_to :back, :notice => 'update successfully'
     else
-      redirect_to :back
+      redirect_to :back, :notice => notice.join(' ')
     end
   end
 
   def data_import
-    params[:data].split("\n").map{|x| TKeyword.import(x.chomp)}
-    redirect_to :root, :notice => 'update successfully'
+    notice = TKeyword.data_import(params[:data])
+    if notice.blank?
+      redirect_to :back, :notice => 'import successfully'
+    else
+      redirect_to :back, :notice => notice.join(', ')
+    end
   end
 end

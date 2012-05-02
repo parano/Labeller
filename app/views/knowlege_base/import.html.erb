@@ -1,13 +1,21 @@
-<%= form_tag '/data_import', :method => 'post' do %>
-  <div class="input">
-    <%= text_area_tag 'data', nil, :class => 'span8' ,:style => "height: 500px", :placeholder => '…………' %>
-  </div>
-  <br />
-
-  <div class="well">
-    <%= submit_tag("Import", :class => 'btn btn-success') %>
-  <% end %>
-  <%= link_to 'Back', root_url, :class => 'btn'  %>
+<div class="row well span8 offset1">
+  <span class="label label-important">Attention</span>, 输入文本每行应符合以下格式： <br />
+      <p class="offset1" style="margin-top: 15px">
+        &lt;text&gt;, &lt;kw_type&gt;, &lt;synonym&gt;, &lt;channel1&gt;|&lt;channel2&gt;, &lt;rel_kw_list&gt;<br />
+        &lt;rel_kw_list&gt; = &lt;rel_type1&gt;$&lt;kw1&gt;^&lt;kw_type1&gt;#&lt;kw2&gt;^&lt;kw_type2&gt;|&lt;rel_type2&gt;$..
+      </p>
 </div>
 
+<div class="row offset1">
+  <%= form_tag '/data_import', :method => 'post' do %>
+    <div class="input">
+      <%= text_area_tag 'data', nil, :class => 'span8' ,:style => "height: 500px", :placeholder => '…………' %>
+    </div>
+    <br />
 
+    <div class="well">
+      <%= submit_tag("Import", :class => 'btn btn-success') %>
+    <% end %>
+    <%= link_to 'Back', root_url, :class => 'btn'  %>
+  </div>
+</div>

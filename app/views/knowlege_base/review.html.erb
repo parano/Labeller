@@ -1,3 +1,25 @@
+<div class="modal fade" id="myModal">
+  <div class="modal-header">
+    <button class="close" data-dismiss="modal">×</button>
+    <h3>注意事项</h3>
+  </div>
+  <div class="modal-body">
+    <ul style="margin-top: 17px">
+      <li>更改或清空输入框后点击对应行的update按钮可以更新或删除该Keyword</li>
+      <li>每次操作只能更新或删除一个Keyword</li>
+      <li>输入请严格按照格式： 
+        <p class="well">
+          &lt;text&gt;, &lt;kw_type&gt;, &lt;synonym&gt;, &lt;channel1&gt;|&lt;channel2&gt;, &lt;rel_kw_list&gt;<br /><br />
+          &lt;rel_kw_list&gt; = &lt;rel_type1&gt;$&lt;kw1&gt;^&lt;kw_type1&gt;#&lt;kw2&gt;^&lt;kw_type2&gt;|&lt;rel_type2&gt;$..
+        </p>
+      </li>
+    </ul>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal">Close</a>
+  </div>
+</div>
+
 <div class="row">
   <div class="span12 offset1">
     <%= form_tag '/review', :method => 'get' do %>
@@ -6,15 +28,16 @@
         <%= select_tag 'chnl', options_from_collection_for_select(@channels, 'id', 'cn_name', params[:chnl]), :include_blank => true %>
       </span>
       <span class="span3">
-        <%= label_tag 'kw Types' %>
+        <label for="KeywordTypes">Keyword Types</label>
         <%= select_tag 'kw_type', options_from_collection_for_select(@kw_types, 'label', 'desc', params[:kw_type]), :include_blank => true %>
       </span>
       <span class="span3">
-        <%= label_tag 'Key word' %>
+        <%= label_tag 'Keyword' %>
         <%= text_field_tag 'key', params[:key], :placeholder => '...'  %>
       </span>
       <span class="span2">
         <%= submit_tag("Search", :class => 'btn btn-large btn-primary', :style => 'margin-top: 15px') %>
+        <a class="btn" data-toggle="modal" href="#myModal" style="margin-top: 14px" >注意事项</a>
       </span>
     <% end %>
   </div>

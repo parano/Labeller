@@ -1,5 +1,9 @@
 class TKwRelation < KnowlegeBase
-  def self.table_name() "t_kw_relation" end
+  def 
+    self.table_name() "t_kw_relation" 
+  end
+
+
   validates_presence_of :rel_type
   validates_presence_of :kw1_id
   validates_presence_of :kw2_id

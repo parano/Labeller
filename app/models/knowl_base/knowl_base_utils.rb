@@ -1,4 +1,4 @@
-# coding: utf-8
+# coing: utf-8
 # = =
 module KnowlBaseUtils
   def db_client
