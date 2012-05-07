@@ -172,13 +172,10 @@ class TKeyword < KnowlegeBase
     #  end
     #end
     if info[2] == 'null' && !keyword.synonym.blank?
+
       keyword.update_attributes(:synonym => nil)
-      notice << "the original synonyms \"#{keyword.synonym}\" was deleted, "
-    elsif info[2] != 'null' && keyword.synonym.blank? 
-      notice << "the synonyms was changed to \"#{info[2]}\", "
-      keyword.update_attributes(:synonym => info[2])  
     elsif keyword.synonym != info[2] && !keyword.synonym.blank?
-      notice << "the synonyms was changed form \"#{keyword.synonym}\" to \"#{info[2]}\", "
+
       keyword.update_attributes(:synonym => info[2])  
     end
 
