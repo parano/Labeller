@@ -107,6 +107,7 @@ class TKeyword < KnowlegeBase
     #keyword = TKeyword.find(keyword_id)
     #if keyword && !keyword.t_kw_relations.empty?
       TKwRelation.delete_all(:kw1_id => keyword_id)
+      TKwRelation.delete_all(:kw2_id => keyword_id)
       #TKwRelation.where(:kw2_id => keyword_id).each { |tkwrelation| tkwrelation.destroy }
     #end
   end
