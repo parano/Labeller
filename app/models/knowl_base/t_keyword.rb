@@ -214,7 +214,7 @@ class TKeyword < KnowlegeBase
     # add synonym
     if info[2] != 'null' && !info[2].empty?
       synonym = keyword.synonym
-      if synonym.empty?
+      if synonym.nil? || synonym.empty?
         keyword.update_attributes(:synonym => info[2])
         notice << "the synonyms was changed to \"#{info[2]}\", "
       else
