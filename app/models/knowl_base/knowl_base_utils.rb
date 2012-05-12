@@ -39,8 +39,8 @@ module KnowlBaseUtils
   def get_conflicts(chnl_cn_name, kw_type)
     conflicts = self.exportation.split("\n").map{|x| x.chomp.strip} & get_words(chnl_cn_name, kw_type) 
     self.update_attributes( :conflicts => conflicts.join("\n"),
-                            :chnl_name => chnl_cn_name,
-                            :kw_type => kw_type)
+                           :chnl_name => chnl_cn_name,
+                           :kw_type => kw_type)
     conflicts
   end
 
@@ -54,7 +54,7 @@ module KnowlBaseUtils
         insert_word_to_knowlbase(client, word, chnl_id, self.kw_type)
         #notice = TKeyword.import_new_keyword(formatted_keyword)
       end
-    and
+    end
     return true
   end
 
