@@ -82,6 +82,14 @@ class TKeyword < KnowlegeBase
     TKeyword.where(:text => info[0], :kw_type => info[1]).first
   end
 
+  def self.add_chnl_to_keyword(word, kw_type, chnl_id)
+    keyword = TKeyword.where(:text => word, :kw_type => kw_type).first
+    if !keyword.blank?
+      ids = keyword.t_channel_ids | [chnl_id]
+      keyword.t_channel_ids = ids
+    end
+  end
+
   # return true if the two relation formulas are the same to each other
   def compare_rel_kw_list(new_relation)
     new_relation == self.relation_words 

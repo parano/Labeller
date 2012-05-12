@@ -53,6 +53,8 @@ module KnowlBaseUtils
       if keyword.blank?
         insert_word_to_knowlbase(client, word, chnl_id, self.kw_type)
         #notice = TKeyword.import_new_keyword(formatted_keyword)
+      else
+        TKeyword.add_chnl_to_keyword(word, kw_type, chnl_id)
       end
     end
     return true
