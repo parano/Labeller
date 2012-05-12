@@ -77,7 +77,7 @@ class TKeyword < KnowlegeBase
     info = formatted_keyword.split(",").map{|w| w.strip}
   end
 
-  def self.get_keyword_id_by_string(formatted_keyword)
+  def self.get_keyword_by_string(formatted_keyword)
     info = TKeyword.get_infos(formatted_keyword)
     TKeyword.where(:text => info[0], :kw_type => info[1]).first
   end
@@ -258,7 +258,7 @@ class TKeyword < KnowlegeBase
   end
 
   def self.import(formatted_keyword)
-    keyword = TKeyword.get_keyword_id_by_string(formatted_keyword)
+    keyword = TKeyword.get_keyword_by_string(formatted_keyword)
     if !keyword.blank?
       notice = TKeyword.add_to(keyword.id, formatted_keyword)
     else

@@ -49,8 +49,12 @@ module KnowlBaseUtils
     chnl_id = get_chnl_id_by_cn_name(client, self.chnl_name)
     export = self.get_unconflict_words
     export.each do |word|
-      insert_word_to_knowlbase(client, word, chnl_id, self.kw_type)
-    end
+      keyword = TKeyword.where(:text => word, :kw_type => self.kw_type)
+      if keyword.blank?
+        insert_word_to_knowlbase(client, word, chnl_id, self.kw_type)
+        #notice = TKeyword.import_new_keyword(formatted_keyword)
+      end
+    and
     return true
   end
 
