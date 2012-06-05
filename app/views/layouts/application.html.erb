@@ -37,7 +37,7 @@
               <a class="close" data-dismiss="alert">×</a>
               <% if notice.class == String %>
                 <p class="notice"><%= notice %></p>
-              <% else %>
+              <% elsif notice.class == Array %>
                 <% notice.each do |n| %>
                   <p class="notice"><%= n %></p>
                 <% end %>
