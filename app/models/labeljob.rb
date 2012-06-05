@@ -16,6 +16,11 @@ class Labeljob < ActiveRecord::Base
   mount_uploader :rawdata, RawdataUploader
   mount_uploader :filter, FilterUploader
 
+  def fun
+    array = []
+    array.each { |element| body }
+  end
+
   def word_label?
     self.labels.blank?
   end
@@ -44,7 +49,7 @@ class Labeljob < ActiveRecord::Base
     end
     earray.sort
   end
-
+  
   def get_exportation
     if !self.exportation.blank? 
       return self.exportation

@@ -35,7 +35,13 @@
           <% if notice or alert %>
             <div class="alert alert-block">
               <a class="close" data-dismiss="alert">×</a>
-              <p class="notice"><%= notice %></p>
+              <% if notice.class == String %>
+                <p class="notice"><%= notice %></p>
+              <% else %>
+                <% notice.each do |n| %>
+                  <p class="notice"><%= n %></p>
+                <% end %>
+              <% end %>
               <p class="notice"><%= alert %></p>
             </div>
           <% end %>

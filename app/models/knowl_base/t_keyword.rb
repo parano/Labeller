@@ -12,6 +12,7 @@ class TKeyword < KnowlegeBase
   def relation_words
     words = {}
     self.t_kw_relations.each do |r|
+      next if !TKeyword.exists?(r[:kw2_id])
       word = TKeyword.find(r[:kw2_id])
       type = r[:rel_type]
       if !words.has_key?(type)
@@ -42,10 +43,12 @@ class TKeyword < KnowlegeBase
 
   def self.data_import(data)
     if data.empty?
-      return ['Nothing changed']
+      return 'Nothing changed'
     else
-      data.split("\n").map{|x| TKeyword.import(x.chomp)}
+      notice = []
+      data.split("\n").map{|x| notice << TKeyword.import(x.chomp)}
     end
+    notice
   end
 
   def self.conditions(chnl_id, kw_type, key)
@@ -96,7 +99,7 @@ class TKeyword < KnowlegeBase
   end
 
   def build_kw_relation(relation)
-    return true if relation.blank?
+    return true if relation.blank? || relation == "null"
 
     relation.split("|").each do |info|
       i = info.split('$')
@@ -121,7 +124,7 @@ class TKeyword < KnowlegeBase
   end
 
   def rebuild_kw_relation(new_relation_words, original_relation_words)
-    return true if new_relation_words.blank?
+    return true if new_relation_words.blank? || new_relation_words == "null"
     relations = {}
     new_relations = []
 
@@ -151,16 +154,27 @@ class TKeyword < KnowlegeBase
   def self.update(kid, formatted_keyword)
     keyword = TKeyword.find(kid)
     kw_name = keyword.text
+
     if formatted_keyword.blank?
       TKeyword.delete_keyword(kid)
-      return ["The word : #{kw_name} was successfully deleted."]  
+      return "The word : #{kw_name} was successfully deleted."  
     end
 
-    return ["Nothing changed"] if keyword.get_string == formatted_keyword
+    return "Nothing changed to word #{kw_name}" if keyword.get_string == formatted_keyword
+
+    notice = []
+    info = TKeyword.get_infos(formatted_keyword)
+    
+    tem_word = TKeyword.get_keyword_by_string(formatted_keyword)
+    if !tem_word.blank?
+      TKeyword.delete_keyword(kid)
+      notice << "The word #{keyword.text} was conbined into word #{tem_word.text}"
+      notice << TKeyword.add_to(tem_word.id, formatted_keyword)
+      return notice
+    end
 
     # update keyword
-    notice = ["The word \"#{kw_name}\" was changed :"]
-    info = TKeyword.get_infos(formatted_keyword)
+    notice << "The word \"#{kw_name}\" was changed :"
     if keyword.text != info[0]
       keyword.update_attributes(:text    => info[0]) 
       notice << " the text was changed to \"#{info[0]}\", "
@@ -213,7 +227,7 @@ class TKeyword < KnowlegeBase
   def self.add_to(kid, formatted_keyword)
     notice = []
     keyword = TKeyword.find(kid)
-    return notice << 'You didnot change anything' if formatted_keyword.empty? || keyword.get_string == formatted_keyword
+    return "Nothing change to word #{keyword.text}" if formatted_keyword.empty? || keyword.get_string == formatted_keyword
 
     # update keyword
     info = TKeyword.get_infos(formatted_keyword)
@@ -225,10 +239,10 @@ class TKeyword < KnowlegeBase
       synonym = keyword.synonym
       if synonym.nil? || synonym.empty?
         keyword.update_attributes(:synonym => info[2])
-        notice << "the synonyms was changed to \"#{info[2]}\", "
+        notice << "the synonyms was changed to \"#{info[2]}\""
       else
         keyword.update_attributes(:synonym => (info[2].split('|') | synonym.split('|')).join('|'))
-        notice << "the synonyms was changed form \"#{keyword.synonym}\" to \"#{info[2]}\", "
+        notice << "the synonyms was changed form \"#{keyword.synonym}\" to \"#{info[2]}\""
       end
     end
 
@@ -239,13 +253,16 @@ class TKeyword < KnowlegeBase
       chnl_ids |= keyword.t_channel_ids
       keyword.t_channel_ids = chnl_ids 
       new_channels = keyword.get_channels.split('|').map{|w| "\"#{w}\""}.join(',')
-      notice << "the channels was updated into #{new_channels}, "
+      notice << "the channels was updated into #{new_channels}"
     end
 
     # add relations
     if !(info[4].blank? || info[4] == 'null') && !keyword.compare_rel_kw_list(info[4])
       keyword.rebuild_kw_relation(info[4], keyword.relation_words)
     end
+
+    notice.unshift("The word \"#{keyword.text}\" has changed: ")
+    notice.join(", ")
   end
 
   # delete all the stuff associated with the keyword with the given id in knowlege base
@@ -280,8 +297,11 @@ class TKeyword < KnowlegeBase
 
     # keyword
     keyword = TKeyword.new(:text => info[0], 
-                           :kw_type => info[1], 
-                           :synonym => info[2])
+                           :kw_type => info[1])
+    
+    # synonym
+    keyword.synonym = info[2] if info[2] != "null"
+
     keyword.save
 
     # channels
@@ -289,6 +309,7 @@ class TKeyword < KnowlegeBase
 
     # relation
     keyword.build_kw_relation(info[4])
-    return []
+
+    return "Keyword #{keyword.text} formatted as \"#{keyword.get_string}\" was imported"
   end
 end

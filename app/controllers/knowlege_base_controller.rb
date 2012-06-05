@@ -13,7 +13,7 @@ class KnowlegeBaseController < ApplicationController
     if notice.blank?
       redirect_to :back, :notice => 'update successfully'
     else
-      redirect_to :back, :notice => notice.join(' ')
+      redirect_to :back, :notice => notice
     end
   end
 
@@ -22,7 +22,7 @@ class KnowlegeBaseController < ApplicationController
     if notice.blank?
       redirect_to :back, :notice => 'import successfully'
     else
-      redirect_to :back, :notice => notice.join(', ')
+      redirect_to :back, :notice => notice
     end
   end
 end
