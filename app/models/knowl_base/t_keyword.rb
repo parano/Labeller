@@ -85,6 +85,11 @@ class TKeyword < KnowlegeBase
     TKeyword.where(:text => info[0], :kw_type => info[1]).first
   end
 
+  def self.get_reduplicate_word(kid, formatted_keyword)
+    info = TKeyword.get_infos(formatted_keyword)
+    TKeyword.where("id != ? AND text = ? AND kw_type = ?", kid, info[0], info[1]).first
+  end
+
   def self.add_chnl_to_keyword(word, kw_type, chnl_id)
     keyword = TKeyword.where(:text => word, :kw_type => kw_type).first
     if !keyword.blank?
@@ -165,10 +170,10 @@ class TKeyword < KnowlegeBase
     notice = []
     info = TKeyword.get_infos(formatted_keyword)
     
-    tem_word = TKeyword.get_keyword_by_string(formatted_keyword)
+    tem_word = TKeyword.get_reduplicate_word(kid, formatted_keyword)
     if !tem_word.blank?
       TKeyword.delete_keyword(kid)
-      notice << "The word #{keyword.text} was conbined into word #{tem_word.text}"
+      notice << "The word #{keyword.text} was combined into word #{tem_word.text}"
       notice << TKeyword.add_to(tem_word.id, formatted_keyword)
       return notice
     end
